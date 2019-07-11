@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Login activity -->
+    <string name="et_login">Логин</string>
+    <string name="et_password">Пароль</string>
+</resources>

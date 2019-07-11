@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">Wishlist</string>
+    <string name="app_name" translatable="false">Wishlist</string>
+
+    <!-- Login activity -->
+    <string name="et_login">Login</string>
+    <string name="et_password">Password</string>
 </resources>
