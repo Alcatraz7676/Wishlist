@@ -55,8 +55,7 @@
                 android:layout_marginBottom="24dp"
                 android:padding="12dp"
                 android:text="@string/et_login"
-                android:clickable="false"
-                android:alpha="0.5"
+                android:enabled="false"
                 android:textSize="22sp"
                 tools:background="@color/colorPrimaryDarker"
                 tools:textColor="@color/colorAccent"/>
