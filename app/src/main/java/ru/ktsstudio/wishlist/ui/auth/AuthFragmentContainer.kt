@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import ru.ktsstudio.wishlist.R
 import ru.ktsstudio.wishlist.ui.app.ActivityNavigator
+import ru.ktsstudio.wishlist.utils.navigate
 
 class AuthFragmentContainer : Fragment(), AuthNavigator {
 
@@ -22,12 +23,16 @@ class AuthFragmentContainer : Fragment(), AuthNavigator {
     }
 
     override fun navigateToLogin() {
-        childFragmentManager.beginTransaction()
-            .replace(R.id.fragment_content, LoginFragment.newInstance())
-            .commitNow()
+        childFragmentManager.navigate(R.id.fragment_content, LoginFragment.newInstance())
     }
 
     override fun navigateToMain() {
         requireActivity().let { it as? ActivityNavigator }?.navigateToMainScreen()
+    }
+
+    companion object {
+        fun newInstance(): AuthFragmentContainer {
+            return AuthFragmentContainer()
+        }
     }
 }

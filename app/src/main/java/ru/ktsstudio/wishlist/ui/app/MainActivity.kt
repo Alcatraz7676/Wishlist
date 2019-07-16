@@ -6,10 +6,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_main.*
 import ru.ktsstudio.wishlist.R
 import ru.ktsstudio.wishlist.receivers.NetworkBroadcastReceiver
 import ru.ktsstudio.wishlist.ui.auth.AuthFragmentContainer
 import ru.ktsstudio.wishlist.ui.main.MainFragmentContainer
+import ru.ktsstudio.wishlist.utils.navigate
 
 class MainActivity : AppCompatActivity(), ActivityNavigator {
 
@@ -37,7 +39,7 @@ class MainActivity : AppCompatActivity(), ActivityNavigator {
     @Suppress("DEPRECATION")
     override fun onResume() {
         super.onResume()
-        setupSnackbar()
+        snackbar = activity_content.makeSnackbar()
         val filter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
         registerReceiver(receiver, filter)
     }
@@ -48,20 +50,14 @@ class MainActivity : AppCompatActivity(), ActivityNavigator {
     }
 
     override fun navigateToMainScreen() {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.activity_content, MainFragmentContainer())
-            .commitNow()
+        supportFragmentManager.navigate(R.id.activity_content, MainFragmentContainer.newInstance())
     }
 
     override fun navigateToLoginScreen() {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.activity_content, AuthFragmentContainer())
-            .commitNow()
+        supportFragmentManager.navigate(R.id.activity_content, AuthFragmentContainer.newInstance())
     }
 
-    private fun setupSnackbar() {
-        val view = findViewById<View>(R.id.activity_content)
-        snackbar = Snackbar.make(view, R.string.snackbar_network, Snackbar.LENGTH_INDEFINITE)
-    }
+    private fun View.makeSnackbar() =
+        Snackbar.make(this, R.string.main_activity_snackbar_network_missing, Snackbar.LENGTH_INDEFINITE)
 
 }

@@ -8,10 +8,11 @@ import android.net.ConnectivityManager
 abstract class NetworkBroadcastReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        if (intent?.extras?.getBoolean(ConnectivityManager.EXTRA_NO_CONNECTIVITY) == true)
+        if (intent?.extras?.getBoolean(ConnectivityManager.EXTRA_NO_CONNECTIVITY) == true) {
             onNetworkLostConnection()
-        else
+        } else {
             onNetworkGainConnection()
+        }
     }
 
     abstract fun onNetworkLostConnection()
