@@ -1,7 +1,15 @@
 <resources>
     <string name="app_name" translatable="false">Wishlist</string>
 
-    <!-- Login activity -->
+    <!-- Activity -->
+    <string name="snackbar_network">Network is missing</string>
+
+    <!-- Login fragment -->
     <string name="et_login">Login</string>
     <string name="et_password">Password</string>
+    <string name="btn_login">Login</string>
+
+    <!-- Main fragment -->
+    <string name="btn_logout">Logout</string>
+
 </resources>

@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Login activity -->
+    <!-- Activity -->
+    <string name="snackbar_network">Сеть отсутствует</string>
+
+    <!-- Login fragment -->
     <string name="et_login">Логин</string>
     <string name="et_password">Пароль</string>
+    <string name="btn_login">Логин</string>
+
+    <!-- Main fragment -->
+    <string name="btn_logout">Выйти</string>
 </resources>
