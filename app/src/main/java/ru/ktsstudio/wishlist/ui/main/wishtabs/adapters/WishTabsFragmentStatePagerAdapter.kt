@@ -1,12 +1,9 @@
 package ru.ktsstudio.wishlist.ui.main.wishtabs.adapters
 
 import android.content.Context
-import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
-import androidx.viewpager.widget.PagerAdapter
 import ru.ktsstudio.wishlist.R
 import ru.ktsstudio.wishlist.ui.main.wishtabs.FavoriteFragment
 import ru.ktsstudio.wishlist.ui.main.wishtabs.MyFragment

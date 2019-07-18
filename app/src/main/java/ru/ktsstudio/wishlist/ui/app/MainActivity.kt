@@ -10,7 +10,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 import ru.ktsstudio.wishlist.R
 import ru.ktsstudio.wishlist.models.User
 import ru.ktsstudio.wishlist.models.WishAdapterModel
-import ru.ktsstudio.wishlist.models.WishAdapterModel.Header
 import ru.ktsstudio.wishlist.models.WishAdapterModel.Wish
 import ru.ktsstudio.wishlist.receivers.NetworkBroadcastReceiver
 import ru.ktsstudio.wishlist.ui.auth.AuthFragmentContainer
