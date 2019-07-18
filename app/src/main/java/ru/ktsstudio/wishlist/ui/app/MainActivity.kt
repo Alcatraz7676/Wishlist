@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity(), ActivityNavigator {
     private fun View.makeSnackbar() =
         Snackbar.make(this, R.string.main_activity_snackbar_network_missing, Snackbar.LENGTH_INDEFINITE)
 
-    fun getWishes(): MutableList<WishAdapterModel> {
+    fun getAllWishes(): MutableList<WishAdapterModel> {
         return mutableListOf(
             Wish(0, "Велосипед", "STELS Navigator 500 V 26 V020", User("desure"), false),
             Wish(1, "Игровая приставка", "Nintendo Switch", User("desure"), true),

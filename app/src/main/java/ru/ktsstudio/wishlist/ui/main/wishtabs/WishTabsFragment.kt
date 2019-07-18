@@ -1,9 +1,7 @@
 package ru.ktsstudio.wishlist.ui.main.wishtabs
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_wishtabs.*
 import ru.ktsstudio.wishlist.R
