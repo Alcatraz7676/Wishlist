@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_login.*
 import ru.ktsstudio.wishlist.R
+import ru.ktsstudio.wishlist.models.User
+import ru.ktsstudio.wishlist.ui.app.MainActivity
 import ru.ktsstudio.wishlist.utils.TextChangedListener
 
 class LoginFragment : Fragment() {
@@ -21,7 +23,10 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupEditText()
-        btn_login.setOnClickListener { authNavigator.navigateToMain() }
+        btn_login.setOnClickListener {
+            (activity as MainActivity).currentUser = User(input_login.text.toString())
+            authNavigator.navigateToMain()
+        }
     }
 
     private fun setupEditText() {

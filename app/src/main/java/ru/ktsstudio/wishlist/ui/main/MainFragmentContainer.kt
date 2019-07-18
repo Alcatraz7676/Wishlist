@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import ru.ktsstudio.wishlist.R
+import ru.ktsstudio.wishlist.ui.main.wishtabs.WishTabsFragment
 import ru.ktsstudio.wishlist.utils.navigate
 
 class MainFragmentContainer : Fragment(), MainNavigator {
@@ -22,7 +23,7 @@ class MainFragmentContainer : Fragment(), MainNavigator {
     }
 
     override fun navigateToMain() {
-        childFragmentManager.navigate(R.id.fragment_content, MainFragment.newInstance())
+        childFragmentManager.navigate(R.id.fragment_content, WishTabsFragment.newInstance())
     }
 
     companion object {

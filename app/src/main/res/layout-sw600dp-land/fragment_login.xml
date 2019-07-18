@@ -7,7 +7,8 @@
 			android:focusableInTouchMode="true"
 			android:fillViewport="true"
 			tools:context=".ui.app.MainActivity"
-			android:background="@color/colorPrimary">
+			android:background="@color/colorPrimary"
+			android:theme="@style/LoginTheme">
 	<androidx.constraintlayout.widget.ConstraintLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
