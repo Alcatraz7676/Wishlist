@@ -19,7 +19,7 @@ class WishTabsFragmentStatePagerAdapter(fragmentManager: FragmentManager, privat
     )
 
     override fun getItem(position: Int): Fragment {
-        return when(position) {
+        return when (position) {
             0 -> FavoriteFragment.newInstance()
             1 -> PopularFragment.newInstance()
             2 -> MyFragment.newInstance()

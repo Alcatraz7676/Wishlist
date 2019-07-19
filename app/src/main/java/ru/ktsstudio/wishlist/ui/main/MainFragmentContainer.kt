@@ -18,11 +18,11 @@ class MainFragmentContainer : Fragment(), MainNavigator {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (savedInstanceState == null) {
-            navigateToMain()
+            navigateToWishTabs()
         }
     }
 
-    override fun navigateToMain() {
+    override fun navigateToWishTabs() {
         childFragmentManager.navigate(R.id.fragment_content, WishTabsFragment.newInstance())
     }
 
