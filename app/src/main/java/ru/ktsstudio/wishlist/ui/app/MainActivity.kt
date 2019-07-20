@@ -18,17 +18,18 @@ import ru.ktsstudio.wishlist.utils.navigate
 
 class MainActivity : AppCompatActivity(), ActivityNavigator {
 
-    private lateinit var snackbar: Snackbar
+    private var snackbar: Snackbar? = null
     var currentUser: User? = null
 
     private val receiver = object : NetworkBroadcastReceiver() {
 
         override fun onNetworkLostConnection() {
-            snackbar.show()
+            snackbar = activity_content.makeSnackbar()
+            snackbar?.show()
         }
 
         override fun onNetworkGainConnection() {
-            snackbar.dismiss()
+            snackbar?.dismiss()
         }
     }
 
@@ -40,10 +41,8 @@ class MainActivity : AppCompatActivity(), ActivityNavigator {
         }
     }
 
-    @Suppress("DEPRECATION")
     override fun onResume() {
         super.onResume()
-        snackbar = activity_content.makeSnackbar()
         val filter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
         registerReceiver(receiver, filter)
     }
