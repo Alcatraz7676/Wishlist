@@ -17,4 +17,5 @@
 	<string name="wishtabs_fragment_tv_header_favorite">Список избранных желаний</string>
 	<string name="wishtabs_fragment_tv_header_popular">Список популярных желаний</string>
 	<string name="wishtabs_fragment_tv_header_my">Список моих желаний</string>
+	<string name="wishtabs_fragment_tv_empty_list">Список пуст</string>
 </resources>

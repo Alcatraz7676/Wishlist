@@ -17,5 +17,6 @@
 	<string name="wishtabs_fragment_tv_header_favorite">Favorite WishList</string>
 	<string name="wishtabs_fragment_tv_header_popular">Popular WishList</string>
 	<string name="wishtabs_fragment_tv_header_my">My WishList</string>
+	<string name="wishtabs_fragment_tv_empty_list">List is empty</string>
 
 </resources>

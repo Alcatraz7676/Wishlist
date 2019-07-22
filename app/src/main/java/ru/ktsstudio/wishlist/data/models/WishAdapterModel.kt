@@ -1,4 +1,4 @@
-package ru.ktsstudio.wishlist.models
+package ru.ktsstudio.wishlist.data.models
 
 sealed class WishAdapterModel {
 
@@ -13,4 +13,5 @@ sealed class WishAdapterModel {
     data class Header(
         val title: String
     ) : WishAdapterModel()
+
 }

@@ -1,28 +1,20 @@
 package ru.ktsstudio.wishlist.ui.main.wishtabs
 
 import ru.ktsstudio.wishlist.R
-import ru.ktsstudio.wishlist.models.WishAdapterModel
-import ru.ktsstudio.wishlist.models.WishAdapterModel.Wish
-import ru.ktsstudio.wishlist.models.WishAdapterModel.Header
+import ru.ktsstudio.wishlist.data.models.WishAdapterModel
+import ru.ktsstudio.wishlist.data.models.WishAdapterModel.Wish
+import ru.ktsstudio.wishlist.data.models.WishAdapterModel.Header
+import ru.ktsstudio.wishlist.data.stores.LocalWishesStore
 import ru.ktsstudio.wishlist.ui.app.MainActivity
 
 class MyFragment : WishFragment() {
 
     override fun getWishes(): List<WishAdapterModel> {
         val header = Header(resources.getString(R.string.wishtabs_fragment_tv_header_my))
-        val mainActivity = (activity as MainActivity)
-        val wishes = mainActivity
+        val wishes = LocalWishesStore
             .getAllWishes()
-            .filter { (it as Wish).author == mainActivity.currentUser }
-            .toMutableList()
-        wishes.add(0, header)
-        return wishes
-    }
-
-    companion object {
-        fun newInstance(): MyFragment {
-            return MyFragment()
-        }
+            .filter { (it as Wish).author == (activity as MainActivity).currentUser }
+        return listOf(header) + wishes
     }
 
 }

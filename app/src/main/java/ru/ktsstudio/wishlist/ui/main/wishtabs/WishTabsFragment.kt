@@ -16,24 +16,22 @@ class WishTabsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        toolbar.title = resources.getString(R.string.app_name)
+        setupToolbar()
         setupViewPager()
         setupTabLayout()
     }
 
+    private fun setupToolbar() {
+        toolbar.title = resources.getString(R.string.app_name)
+    }
+
     private fun setupViewPager() {
         val context = activity as MainActivity
-        pager.adapter = WishTabsFragmentStatePagerAdapter(context.supportFragmentManager, context)
+        pager.adapter = WishTabsFragmentStatePagerAdapter(childFragmentManager) { resId -> context.getString(resId) }
     }
 
     private fun setupTabLayout() {
         tabs.setupWithViewPager(pager)
-    }
-
-    companion object {
-        fun newInstance(): WishTabsFragment {
-            return WishTabsFragment()
-        }
     }
 
 }

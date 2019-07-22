@@ -6,7 +6,6 @@
 		tools:context=".ui.app.MainActivity"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content">
-
 	<TextView
 			tools:text="Альбом группы Queen"
 			android:layout_width="0dp"

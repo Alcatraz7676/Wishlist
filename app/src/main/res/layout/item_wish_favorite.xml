@@ -6,7 +6,6 @@
 		tools:context=".ui.app.MainActivity"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content">
-
 	<!-- Пример длинного названия и описания -->
 	<TextView
 			tools:text="Альбом группы Queen Альбом группы Queen Альбом группы Queen Альбом группы Queen"
@@ -19,6 +18,7 @@
 			android:layout_marginTop="8dp"
 			app:layout_constraintTop_toTopOf="parent"
 			app:layout_constraintEnd_toStartOf="@+id/guideline"/>
+
 	<TextView
 			tools:text="The Platinum Collection: Greatest Hits I, II &amp; III\nThe Platinum Collection: Greatest Hits I, II &amp; III\nThe Platinum Collection: Greatest Hits I, II &amp; III\nThe Platinum Collection: Greatest Hits I, II &amp; III\nThe Platinum Collection: Greatest Hits I, II &amp; III"
 			android:layout_width="0dp"

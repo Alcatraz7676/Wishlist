@@ -8,15 +8,16 @@ import com.hannesdorfmann.adapterdelegates4.AbsListItemAdapterDelegate
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_wish.*
 import ru.ktsstudio.wishlist.R
-import ru.ktsstudio.wishlist.models.WishAdapterModel
-import ru.ktsstudio.wishlist.models.WishAdapterModel.Wish
+import ru.ktsstudio.wishlist.data.models.WishAdapterModel
+import ru.ktsstudio.wishlist.data.models.WishAdapterModel.Wish
 
 class WishAdapterDelegate :
     AbsListItemAdapterDelegate<Wish, WishAdapterModel, WishAdapterDelegate.WishHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup): WishHolder {
-        val layoutInflater = LayoutInflater.from(parent.context)
-        val view = layoutInflater.inflate(R.layout.item_wish, parent, false)
+        val view = LayoutInflater
+            .from(parent.context)
+            .inflate(R.layout.item_wish, parent, false)
 
         return WishHolder(view)
     }

@@ -23,12 +23,7 @@ class MainFragmentContainer : Fragment(), MainNavigator {
     }
 
     override fun navigateToWishTabs() {
-        childFragmentManager.navigate(R.id.fragment_content, WishTabsFragment.newInstance())
+        childFragmentManager.navigate(R.id.fragment_content, WishTabsFragment())
     }
 
-    companion object {
-        fun newInstance(): MainFragmentContainer {
-            return MainFragmentContainer()
-        }
-    }
 }
