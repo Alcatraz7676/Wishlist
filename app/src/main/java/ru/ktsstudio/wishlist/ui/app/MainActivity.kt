@@ -8,6 +8,10 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.ktsstudio.wishlist.R
+import ru.ktsstudio.wishlist.data.models.User
+import ru.ktsstudio.wishlist.data.models.WishAdapterModel
+import ru.ktsstudio.wishlist.data.models.WishAdapterModel.Wish
+import ru.ktsstudio.wishlist.data.stores.LocalWishesStore
 import ru.ktsstudio.wishlist.receivers.NetworkBroadcastReceiver
 import ru.ktsstudio.wishlist.ui.auth.AuthFragmentContainer
 import ru.ktsstudio.wishlist.ui.main.MainFragmentContainer
@@ -16,6 +20,7 @@ import ru.ktsstudio.wishlist.utils.navigate
 class MainActivity : AppCompatActivity(), ActivityNavigator {
 
     private lateinit var snackbar: Snackbar
+    var currentUser: User? = null
 
     private val receiver = object : NetworkBroadcastReceiver() {
 
@@ -50,14 +55,15 @@ class MainActivity : AppCompatActivity(), ActivityNavigator {
     }
 
     override fun navigateToMainScreen() {
-        supportFragmentManager.navigate(R.id.activity_content, MainFragmentContainer.newInstance())
+        supportFragmentManager.navigate(R.id.activity_content, MainFragmentContainer())
     }
 
     override fun navigateToLoginScreen() {
-        supportFragmentManager.navigate(R.id.activity_content, AuthFragmentContainer.newInstance())
+        supportFragmentManager.navigate(R.id.activity_content, AuthFragmentContainer())
     }
 
     private fun View.makeSnackbar() =
         Snackbar.make(this, R.string.main_activity_snackbar_network_missing, Snackbar.LENGTH_INDEFINITE)
+
 
 }

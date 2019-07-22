@@ -23,16 +23,11 @@ class AuthFragmentContainer : Fragment(), AuthNavigator {
     }
 
     override fun navigateToLogin() {
-        childFragmentManager.navigate(R.id.fragment_content, LoginFragment.newInstance())
+        childFragmentManager.navigate(R.id.fragment_content, LoginFragment())
     }
 
     override fun navigateToMain() {
         requireActivity().let { it as? ActivityNavigator }?.navigateToMainScreen()
     }
 
-    companion object {
-        fun newInstance(): AuthFragmentContainer {
-            return AuthFragmentContainer()
-        }
-    }
 }
