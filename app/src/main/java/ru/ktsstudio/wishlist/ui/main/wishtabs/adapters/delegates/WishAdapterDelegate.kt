@@ -29,7 +29,7 @@ class WishAdapterDelegate :
     }
 
     override fun isForViewType(item: WishAdapterModel, items: MutableList<WishAdapterModel>, position: Int): Boolean {
-        return item is Wish && !item.isFavourite
+        return item is Wish
     }
 
     override fun onBindViewHolder(item: Wish, holder: WishHolder, payloads: MutableList<Any>) {
@@ -48,6 +48,8 @@ class WishAdapterDelegate :
                 tv_author.text = wish.author.login
             else
                 tv_author.isVisible = true
+            if (wish.isFavourite)
+                iv_favorite.isVisible = true
             if (wish.photoId != null) {
                 iv_wish.isVisible = true
                 Glide.with(iv_wish)
