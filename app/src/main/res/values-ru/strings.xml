@@ -5,9 +5,11 @@
 	<string name="main_activity_snackbar_network_missing">Сеть отсутствует</string>
 
 	<!-- Login fragment -->
-	<string name="login_fragment_et_login">Логин</string>
+	<string name="login_fragment_et_name">Имя</string>
+	<string name="login_fragment_et_surname">Фамилия</string>
 	<string name="login_fragment_et_password">Пароль</string>
 	<string name="login_fragment_btn_login">Логин</string>
+	<string name="login_fragment_btn_register">Регистрация</string>
 
 	<!-- WishTabs fragment -->
 	<string name="wishtabs_fragment_tab_favorite">Избранные</string>
@@ -17,5 +19,6 @@
 	<string name="wishtabs_fragment_tv_header_favorite">Список избранных желаний</string>
 	<string name="wishtabs_fragment_tv_header_popular">Список популярных желаний</string>
 	<string name="wishtabs_fragment_tv_header_my">Список моих желаний</string>
+	<string name="wishtabs_fragment_tv_header_network">Список желаний с сервера</string>
 	<string name="wishtabs_fragment_tv_empty_list">Список пуст</string>
 </resources>

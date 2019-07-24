@@ -14,18 +14,20 @@ import ru.ktsstudio.wishlist.ui.main.wishtabs.adapters.WishAdapter
 
 abstract class WishFragment : Fragment() {
 
+    protected lateinit var adapter: WishAdapter
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_rv, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = WishAdapter(getWishes(), tv_empty_list)
-        setupList(adapter)
-        setupSwipeRefreshLayout(adapter)
+        adapter = WishAdapter(getWishes())
+        initList(adapter)
+        initSwipeRefreshLayout(adapter)
     }
 
-    private fun setupList(adapter: WishAdapter) {
+    private fun initList(adapter: WishAdapter) {
         with(recycler_view) {
             this.adapter = adapter
             layoutManager = LinearLayoutManager(activity)
@@ -34,7 +36,7 @@ abstract class WishFragment : Fragment() {
         }
     }
 
-    private fun setupSwipeRefreshLayout(adapter: WishAdapter) {
+    private fun initSwipeRefreshLayout(adapter: WishAdapter) {
         with(swipeContainer) {
             setColorSchemeResources(R.color.colorAccent)
             setOnRefreshListener {

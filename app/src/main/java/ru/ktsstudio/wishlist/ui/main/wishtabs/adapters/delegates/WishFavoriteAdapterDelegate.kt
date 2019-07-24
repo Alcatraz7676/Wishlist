@@ -3,6 +3,7 @@ package ru.ktsstudio.wishlist.ui.main.wishtabs.adapters.delegates
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.hannesdorfmann.adapterdelegates4.AbsListItemAdapterDelegate
 import kotlinx.android.extensions.LayoutContainer
@@ -23,7 +24,7 @@ class WishFavoriteAdapterDelegate :
     }
 
     override fun isForViewType(item: WishAdapterModel, items: MutableList<WishAdapterModel>, position: Int): Boolean {
-        return item is Wish && item.isFavorite
+        return item is Wish && item.isFavourite
     }
 
     override fun onBindViewHolder(item: Wish, holder: WishFavoriteHolder, payloads: MutableList<Any>) {
@@ -36,7 +37,10 @@ class WishFavoriteAdapterDelegate :
         fun bind(wish: Wish) {
             tv_title.text = wish.title
             tv_description.text = wish.description
-            tv_author.text = wish.author.login
+            if (wish.author != null && wish.author.login.isNotBlank())
+                tv_author.text = wish.author.login
+            else
+                tv_author.isVisible = false
         }
     }
 
