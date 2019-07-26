@@ -6,6 +6,7 @@
 			android:layout_height="match_parent"
 			android:focusableInTouchMode="true"
 			tools:context=".ui.app.MainActivity"
+			android:fillViewport="true"
 			android:theme="@style/AuthorizationTheme">
 	<androidx.constraintlayout.widget.ConstraintLayout
 			android:layout_width="match_parent"

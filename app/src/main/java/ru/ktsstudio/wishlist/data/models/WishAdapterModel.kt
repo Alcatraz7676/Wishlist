@@ -3,7 +3,7 @@ package ru.ktsstudio.wishlist.data.models
 sealed class WishAdapterModel {
 
     data class Wish(
-        val id: Int = 0,
+        val id: Int = nextId++,
         val title: String,
         val description: String,
         val author: User? = null,
@@ -14,5 +14,9 @@ sealed class WishAdapterModel {
     data class Header(
         val title: String
     ) : WishAdapterModel()
+
+    companion object {
+        var nextId: Int = 0
+    }
 
 }

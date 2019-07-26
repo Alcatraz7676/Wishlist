@@ -14,8 +14,11 @@ import kotlinx.android.synthetic.main.item_wish.*
 import ru.ktsstudio.wishlist.R
 import ru.ktsstudio.wishlist.data.models.WishAdapterModel
 import ru.ktsstudio.wishlist.data.models.WishAdapterModel.Wish
-import ru.ktsstudio.wishlist.utils.IMAGE_PLACEHOLDER_URL
 import ru.ktsstudio.wishlist.utils.ProgressPlaceholder
+
+const val IMAGE_PLACEHOLDER_WIDTH = 640
+const val IMAGE_PLACEHOLDER_HEIGHT = 480
+const val IMAGE_PLACEHOLDER_URL = "https://loremflickr.com/$IMAGE_PLACEHOLDER_WIDTH/$IMAGE_PLACEHOLDER_HEIGHT"
 
 class WishAdapterDelegate :
     AbsListItemAdapterDelegate<Wish, WishAdapterModel, WishAdapterDelegate.WishHolder>() {
@@ -42,23 +45,24 @@ class WishAdapterDelegate :
         private val factory = DrawableCrossFadeFactory.Builder().setCrossFadeEnabled(true).build()
 
         fun bind(wish: Wish) {
-            tv_title.text = wish.title
-            tv_description.text = wish.description
-            if (wish.author != null && wish.author.login.isNotBlank())
-                tv_author.text = wish.author.login
-            else
-                tv_author.isVisible = true
-            if (wish.isFavourite)
-                iv_favorite.isVisible = true
-            if (wish.photoId != null) {
-                iv_wish.isVisible = true
-                Glide.with(iv_wish)
-                    .load("$IMAGE_PLACEHOLDER_URL/${wish.photoId}")
-                    .placeholder(ProgressPlaceholder(containerView.context))
-                    .error(R.drawable.bg_placeholder)
-                    .transition(DrawableTransitionOptions.withCrossFade(factory))
-                    .into(iv_wish)
+            with(wish) {
+                tv_title.text = title
+                tv_description.text = description
+                val login = author?.takeIf { it.login.isNotBlank() }?.login
+                tv_author.text = login
+                tv_author.isVisible = login != null
+                iv_favorite.isVisible = isFavourite
+                iv_wish.isVisible = photoId != null
+                if (photoId != null) {
+                    Glide.with(iv_wish)
+                        .load("$IMAGE_PLACEHOLDER_URL/${wish.photoId}")
+                        .placeholder(ProgressPlaceholder(containerView.context))
+                        .error(R.drawable.bg_placeholder)
+                        .transition(DrawableTransitionOptions.withCrossFade(factory))
+                        .into(iv_wish)
+                }
             }
+
         }
 
     }

@@ -6,7 +6,7 @@ import androidx.core.content.ContextCompat
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import ru.ktsstudio.wishlist.R
 
-class ProgressPlaceholder(context: Context) : CircularProgressDrawable(context) {
+class ProgressPlaceholder(val context: Context) : CircularProgressDrawable(context) {
 
     init {
         ContextCompat.getColor(context, R.color.colorAccent).let(::init)

@@ -47,6 +47,8 @@
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:id="@+id/tv_author"
+			android:visibility="gone"
+			tools:visibility="visible"
 			android:textColor="@color/colorPrimaryDarker"
 			app:layout_constraintStart_toStartOf="@+id/tv_description"
 			app:layout_constraintBottom_toBottomOf="parent"
