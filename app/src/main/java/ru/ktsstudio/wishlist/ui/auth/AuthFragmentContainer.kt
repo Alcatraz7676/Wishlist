@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import ru.ktsstudio.wishlist.R
 import ru.ktsstudio.wishlist.ui.app.ActivityNavigator
-import ru.ktsstudio.wishlist.utils.OnBackPressed
+import ru.ktsstudio.wishlist.ui.OnBackPressed
 import ru.ktsstudio.wishlist.utils.navigateAdd
 import ru.ktsstudio.wishlist.utils.navigateReplace
 

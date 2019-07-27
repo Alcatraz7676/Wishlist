@@ -4,7 +4,6 @@ import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
 import ru.ktsstudio.wishlist.data.models.WishAdapterModel
 import ru.ktsstudio.wishlist.ui.main.wishtabs.adapters.delegates.HeaderAdapterDelegate
 import ru.ktsstudio.wishlist.ui.main.wishtabs.adapters.delegates.WishAdapterDelegate
-import ru.ktsstudio.wishlist.utils.diff.WishDiffCallback
 
 class WishAdapter : AsyncListDifferDelegationAdapter<WishAdapterModel> {
 

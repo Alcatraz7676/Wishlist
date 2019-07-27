@@ -1,4 +1,4 @@
-package ru.ktsstudio.wishlist.utils.diff
+package ru.ktsstudio.wishlist.ui.main.wishtabs.adapters
 
 import android.annotation.SuppressLint
 import androidx.recyclerview.widget.DiffUtil

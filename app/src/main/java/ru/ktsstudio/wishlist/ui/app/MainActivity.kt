@@ -12,7 +12,7 @@ import ru.ktsstudio.wishlist.data.models.User
 import ru.ktsstudio.wishlist.receivers.NetworkBroadcastReceiver
 import ru.ktsstudio.wishlist.ui.auth.AuthFragmentContainer
 import ru.ktsstudio.wishlist.ui.main.MainFragmentContainer
-import ru.ktsstudio.wishlist.utils.OnBackPressed
+import ru.ktsstudio.wishlist.ui.OnBackPressed
 import ru.ktsstudio.wishlist.utils.navigateReplace
 
 class MainActivity : AppCompatActivity(), ActivityNavigator {
