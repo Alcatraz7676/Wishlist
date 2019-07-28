@@ -7,9 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import ru.ktsstudio.wishlist.R
 import ru.ktsstudio.wishlist.ui.main.wishtabs.WishTabsFragment
-import ru.ktsstudio.wishlist.utils.navigate
+import ru.ktsstudio.wishlist.ui.OnBackPressed
+import ru.ktsstudio.wishlist.utils.navigateReplace
 
-class MainFragmentContainer : Fragment(), MainNavigator {
+class MainFragmentContainer : Fragment(), MainNavigator, OnBackPressed {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_container, container, false)
@@ -23,7 +24,9 @@ class MainFragmentContainer : Fragment(), MainNavigator {
     }
 
     override fun navigateToWishTabs() {
-        childFragmentManager.navigate(R.id.fragment_content, WishTabsFragment())
+        childFragmentManager.navigateReplace(R.id.fragment_content, WishTabsFragment())
     }
+
+    override fun onBackPressed() = false
 
 }

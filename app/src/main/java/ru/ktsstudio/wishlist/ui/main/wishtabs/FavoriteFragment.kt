@@ -12,7 +12,7 @@ class FavoriteFragment : WishFragment() {
         val header = Header(resources.getString(R.string.wishtabs_fragment_tv_header_favorite))
         val wishes = LocalWishesStore
             .getAllWishes()
-            .filter { (it as Wish).isFavorite  }
+            .filter { (it as Wish).isFavourite  }
         return listOf(header) + wishes
     }
 

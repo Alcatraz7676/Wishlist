@@ -8,130 +8,112 @@ object LocalWishesStore {
     fun getAllWishes(): List<WishAdapterModel> {
         return listOf(
             WishAdapterModel.Wish(
-                0,
-                "Велосипед",
-                "STELS Navigator 500 V 26 V020",
-                User("desure"),
-                false
+                title = "Велосипед",
+                description = "STELS Navigator 500 V 26 V020",
+                author = User("desure"),
+                isFavourite = false
             ),
             WishAdapterModel.Wish(
-                1,
-                "Игровая приставка",
-                "Nintendo Switch",
-                User("desure"),
-                true
+                title = "Игровая приставка",
+                description = "Nintendo Switch",
+                author = User("desure"),
+                isFavourite = true
             ),
             WishAdapterModel.Wish(
-                2,
-                "Альбом группы Queen",
-                "The Platinum Collection: Greatest Hits I, II & III",
-                User("desure"),
-                false
+                title = "Альбом группы Queen",
+                description = "The Platinum Collection: Greatest Hits I, II & III",
+                author = User("desure"),
+                isFavourite = false
             ),
             WishAdapterModel.Wish(
-                3,
-                "Новый телефон",
-                "Xiaomi Mi 9T 6/64GB",
-                User("alebedeb77"),
-                true
+                title = "Новый телефон",
+                description = "Xiaomi Mi 9T 6/64GB",
+                author = User("alebedeb77"),
+                isFavourite = true
             ),
             WishAdapterModel.Wish(
-                4,
-                "Электронная книга",
-                "PocketBook 616",
-                User("alebedeb77"),
-                true
+                title = "Электронная книга",
+                description = "PocketBook 616",
+                author = User("alebedeb77"),
+                isFavourite = true
             ),
             WishAdapterModel.Wish(
-                5,
-                "Экшн-камера",
-                "GoPro HERO7 (CHDHX-701)",
-                User("kotlon"),
-                false
+                title = "Экшн-камера",
+                description = "GoPro HERO7 (CHDHX-701)",
+                author = User("kotlon"),
+                isFavourite = false
             ),
             WishAdapterModel.Wish(
-                6,
-                "Умная колонка",
-                "Amazon Echo Plus Gen 2",
-                User("kotlon"),
-                true
+                title = "Умная колонка",
+                description = "Amazon Echo Plus Gen 2",
+                author = User("kotlon"),
+                isFavourite = true
             ),
             WishAdapterModel.Wish(
-                7,
-                "Кроссовки",
-                "adidas yung 1",
-                User("kotlon"),
-                false
+                title = "Кроссовки",
+                description = "adidas yung 1",
+                author = User("kotlon"),
+                isFavourite = false
             ),
             WishAdapterModel.Wish(
-                8,
-                "Электросамокат",
-                "KUGOO S3",
-                User("javtur"),
-                true
+                title = "Электросамокат",
+                description = "KUGOO S3",
+                author = User("javtur"),
+                isFavourite = true
             ),
             WishAdapterModel.Wish(
-                9,
-                "Видеоигра",
-                "Cyberpunk 2077",
-                User("javtur"),
-                true
+                title = "Видеоигра",
+                description = "Cyberpunk 2077",
+                author = User("javtur"),
+                isFavourite = true
             ),
             WishAdapterModel.Wish(
-                10,
-                "Картина",
-                "Шишкин Иван, картина \"Утро в сосновом лесу\"",
-                User("kotlon"),
-                true
+                title = "Картина",
+                description = "Шишкин Иван, картина \"Утро в сосновом лесу\"",
+                author = User("kotlon"),
+                isFavourite = true
             ),
             WishAdapterModel.Wish(
-                11,
-                "Микрофон",
-                "Blue Yeti nano",
-                User("javtur"),
-                true
+                title = "Микрофон",
+                description = "Blue Yeti nano",
+                author = User("javtur"),
+                isFavourite = true
             ),
             WishAdapterModel.Wish(
-                12,
-                "Отдых в пятизвездочном отеле",
-                "В какой-нибудь жаркой стране",
-                User("javtur"),
-                false
+                title = "Отдых в пятизвездочном отеле",
+                description = "В какой-нибудь жаркой стране",
+                author = User("javtur"),
+                isFavourite = false
             ),
             WishAdapterModel.Wish(
-                13,
-                "Ноутбук",
-                "Xiaomi Mi Notebook Air 13.3\" 2018",
-                User("javtur"),
-                false
+                title = "Ноутбук",
+                description = "Xiaomi Mi Notebook Air 13.3\" 2018",
+                author = User("javtur"),
+                isFavourite = false
             ),
             WishAdapterModel.Wish(
-                14,
-                "Книга",
-                "Kotlin in Action",
-                User("admin"),
-                false
+                title = "Книга",
+                description = "Kotlin in Action",
+                author = User("admin"),
+                isFavourite = false
             ),
             WishAdapterModel.Wish(
-                15,
-                "Видеорегистратор",
-                "Xiaomi 70mai Dash Cam Pro Midrive D02",
-                User("admin"),
-                false
+                title = "Видеорегистратор",
+                description = "Xiaomi 70mai Dash Cam Pro Midrive D02",
+                author = User("admin"),
+                isFavourite = false
             ),
             WishAdapterModel.Wish(
-                16,
-                "Мультиварка",
-                "REDMOND RMC-M90",
-                User("admin"),
-                false
+                title = "Мультиварка",
+                description = "REDMOND RMC-M90",
+                author = User("admin"),
+                isFavourite = false
             ),
             WishAdapterModel.Wish(
-                17,
-                "Беспроводные наушники",
-                "Apple AirPods 2",
-                User("admin"),
-                false
+                title = "Беспроводные наушники",
+                description = "Apple AirPods 2",
+                author = User("admin"),
+                isFavourite = false
             )
         ).shuffled()
     }

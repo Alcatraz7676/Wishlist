@@ -3,13 +3,22 @@ package ru.ktsstudio.wishlist.ui.main.wishtabs.adapters.delegates
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
 import com.hannesdorfmann.adapterdelegates4.AbsListItemAdapterDelegate
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_wish.*
 import ru.ktsstudio.wishlist.R
 import ru.ktsstudio.wishlist.data.models.WishAdapterModel
 import ru.ktsstudio.wishlist.data.models.WishAdapterModel.Wish
+import ru.ktsstudio.wishlist.utils.ProgressPlaceholder
+
+const val IMAGE_PLACEHOLDER_WIDTH = 640
+const val IMAGE_PLACEHOLDER_HEIGHT = 480
+const val IMAGE_PLACEHOLDER_URL = "https://loremflickr.com/$IMAGE_PLACEHOLDER_WIDTH/$IMAGE_PLACEHOLDER_HEIGHT"
 
 class WishAdapterDelegate :
     AbsListItemAdapterDelegate<Wish, WishAdapterModel, WishAdapterDelegate.WishHolder>() {
@@ -23,7 +32,7 @@ class WishAdapterDelegate :
     }
 
     override fun isForViewType(item: WishAdapterModel, items: MutableList<WishAdapterModel>, position: Int): Boolean {
-        return item is Wish && !item.isFavorite
+        return item is Wish
     }
 
     override fun onBindViewHolder(item: Wish, holder: WishHolder, payloads: MutableList<Any>) {
@@ -33,11 +42,30 @@ class WishAdapterDelegate :
     class WishHolder(override val containerView: View) :
         RecyclerView.ViewHolder(containerView), LayoutContainer {
 
+        private val factory = DrawableCrossFadeFactory.Builder().setCrossFadeEnabled(true).build()
+
         fun bind(wish: Wish) {
-            tv_title.text = wish.title
-            tv_description.text = wish.description
-            tv_author.text = wish.author.login
+            with(wish) {
+                tv_title.text = title
+                tv_description.text = description
+                val login = author?.takeIf { it.login.isNotBlank() }?.login
+                tv_author.text = login
+                tv_author.isVisible = login != null
+                iv_favorite.isVisible = isFavourite
+                iv_wish.isVisible = photoId != null
+                if (photoId != null) {
+                    Glide.with(iv_wish)
+                        .load("$IMAGE_PLACEHOLDER_URL/${wish.photoId}")
+                        .placeholder(ProgressPlaceholder(containerView.context))
+                        .error(R.drawable.bg_placeholder)
+                        .transition(DrawableTransitionOptions.withCrossFade(factory))
+                        .into(iv_wish)
+                }
+            }
+
         }
+
     }
+
 
 }

@@ -28,6 +28,7 @@ class WishTabsFragment : Fragment() {
     private fun setupViewPager() {
         val context = activity as MainActivity
         pager.adapter = WishTabsFragmentStatePagerAdapter(childFragmentManager) { resId -> context.getString(resId) }
+        pager.offscreenPageLimit = 2
     }
 
     private fun setupTabLayout() {

@@ -5,9 +5,12 @@
 	<string name="main_activity_snackbar_network_missing">Network is missing</string>
 
 	<!-- Login fragment -->
-	<string name="login_fragment_et_login">Login</string>
+	<string name="login_fragment_et_name">Name</string>
+	<string name="login_fragment_et_surname">Surname</string>
+	<string name="login_fragment_et_email" translatable="false">E-mail</string>
 	<string name="login_fragment_et_password">Password</string>
 	<string name="login_fragment_btn_login">Login</string>
+	<string name="login_fragment_btn_register">Register</string>
 
 	<!-- WishTabs fragment -->
 	<string name="wishtabs_fragment_tab_favorite">Favorite</string>
@@ -17,6 +20,7 @@
 	<string name="wishtabs_fragment_tv_header_favorite">Favorite WishList</string>
 	<string name="wishtabs_fragment_tv_header_popular">Popular WishList</string>
 	<string name="wishtabs_fragment_tv_header_my">My WishList</string>
+	<string name="wishtabs_fragment_tv_header_network">Server WishList</string>
 	<string name="wishtabs_fragment_tv_empty_list">List is empty</string>
 
 </resources>
