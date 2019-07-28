@@ -56,7 +56,7 @@
 					  android:layout_width="match_parent"
 					  android:layout_height="wrap_content"
 					  android:inputType="textEmailAddress"
-					  android:hint="@string/login_fragment_et_email"/>
+					  android:hint="@string/login_fragment_et_hint_email"/>
 		</com.google.android.material.textfield.TextInputLayout>
 
 		<com.google.android.material.textfield.TextInputLayout
@@ -70,14 +70,14 @@
 					  android:layout_width="match_parent"
 					  android:layout_height="wrap_content"
 					  android:inputType="textPassword"
-					  android:hint="@string/login_fragment_et_password"/>
+					  android:hint="@string/login_fragment_et_hint_password"/>
 		</com.google.android.material.textfield.TextInputLayout>
 
 		<androidx.appcompat.widget.AppCompatButton
 				android:id="@+id/btn_login"
 				android:layout_width="0dp"
 				android:layout_height="50dp"
-				android:text="@string/login_fragment_btn_login"
+				android:text="@string/login_fragment_btn_text_login"
 				android:enabled="false"
 				app:backgroundTint="@color/colorPrimaryDarker"
 				android:layout_marginTop="16dp"
@@ -89,7 +89,7 @@
 				android:id="@+id/btn_register"
 				android:layout_width="0dp"
 				android:layout_height="50dp"
-				android:text="@string/login_fragment_btn_register"
+				android:text="@string/login_fragment_btn_text_register"
 				app:backgroundTint="@color/colorPrimaryDarker"
 				app:layout_constraintStart_toStartOf="@+id/guideline_start"
 				app:layout_constraintEnd_toStartOf="@+id/guideline_end"
@@ -117,7 +117,7 @@
 		<androidx.constraintlayout.widget.Group
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:id="@+id/group"
+				android:id="@+id/group_login"
 				app:constraint_referenced_ids="
 				textInputLayout_email,
 				textInputLayout_password,

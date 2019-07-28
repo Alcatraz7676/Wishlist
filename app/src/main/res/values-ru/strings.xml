@@ -5,11 +5,11 @@
 	<string name="main_activity_snackbar_network_missing">Сеть отсутствует</string>
 
 	<!-- Login fragment -->
-	<string name="login_fragment_et_name">Имя</string>
-	<string name="login_fragment_et_surname">Фамилия</string>
-	<string name="login_fragment_et_password">Пароль</string>
-	<string name="login_fragment_btn_login">Логин</string>
-	<string name="login_fragment_btn_register">Регистрация</string>
+	<string name="login_fragment_et_hint_name">Имя</string>
+	<string name="login_fragment_et_hint_surname">Фамилия</string>
+	<string name="login_fragment_et_hint_password">Пароль</string>
+	<string name="login_fragment_btn_text_login">Логин</string>
+	<string name="login_fragment_btn_text_register">Регистрация</string>
 
 	<!-- WishTabs fragment -->
 	<string name="wishtabs_fragment_tab_favorite">Избранные</string>
@@ -21,4 +21,15 @@
 	<string name="wishtabs_fragment_tv_header_my">Список моих желаний</string>
 	<string name="wishtabs_fragment_tv_header_network">Список желаний с сервера</string>
 	<string name="wishtabs_fragment_tv_empty_list">Список пуст</string>
+
+	<!-- WishAdd fragment -->
+	<string name="wishadd_fragment_toolbar_title">Добавить Wish</string>
+	<string name="wishadd_fragment_tv_title_add">Введите название и описание вашего Wish</string>
+	<string name="wishadd_fragment_et_hint_title">Название</string>
+	<string name="wishadd_fragment_et_hint_description">Описание</string>
+	<string name="wishadd_fragment_btn_text_add">Создать</string>
+
+	<!-- WishDetail fragment -->
+	<string name="wishdetail_fragment_tv_favourite">Добавлено в избранное</string>
+
 </resources>

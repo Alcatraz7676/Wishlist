@@ -6,8 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import ru.ktsstudio.wishlist.R
+import ru.ktsstudio.wishlist.data.models.WishAdapterModel
 import ru.ktsstudio.wishlist.ui.main.wishtabs.WishTabsFragment
 import ru.ktsstudio.wishlist.ui.OnBackPressed
+import ru.ktsstudio.wishlist.ui.main.wishtabs.add.WishAddFragment
+import ru.ktsstudio.wishlist.ui.main.wishtabs.detail.WishDetailFragment
+import ru.ktsstudio.wishlist.utils.navigateAdd
 import ru.ktsstudio.wishlist.utils.navigateReplace
 
 class MainFragmentContainer : Fragment(), MainNavigator, OnBackPressed {
@@ -27,6 +31,14 @@ class MainFragmentContainer : Fragment(), MainNavigator, OnBackPressed {
         childFragmentManager.navigateReplace(R.id.fragment_content, WishTabsFragment())
     }
 
-    override fun onBackPressed() = false
+    override fun navigateToWishAdd() {
+        childFragmentManager.navigateAdd(R.id.fragment_content, WishAddFragment())
+    }
+
+    override fun navigateToWishDetail(wish: WishAdapterModel.Wish) {
+        childFragmentManager.navigateAdd(R.id.fragment_content, WishDetailFragment.newInstance(wish))
+    }
+
+    override fun onBackPressed() = childFragmentManager.popBackStackImmediate()
 
 }

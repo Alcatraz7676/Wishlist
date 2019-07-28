@@ -5,12 +5,12 @@
 	<string name="main_activity_snackbar_network_missing">Network is missing</string>
 
 	<!-- Login fragment -->
-	<string name="login_fragment_et_name">Name</string>
-	<string name="login_fragment_et_surname">Surname</string>
-	<string name="login_fragment_et_email" translatable="false">E-mail</string>
-	<string name="login_fragment_et_password">Password</string>
-	<string name="login_fragment_btn_login">Login</string>
-	<string name="login_fragment_btn_register">Register</string>
+	<string name="login_fragment_et_hint_name">Name</string>
+	<string name="login_fragment_et_hint_surname">Surname</string>
+	<string name="login_fragment_et_hint_email" translatable="false">E-mail</string>
+	<string name="login_fragment_et_hint_password">Password</string>
+	<string name="login_fragment_btn_text_login">Login</string>
+	<string name="login_fragment_btn_text_register">Register</string>
 
 	<!-- WishTabs fragment -->
 	<string name="wishtabs_fragment_tab_favorite">Favorite</string>
@@ -22,5 +22,15 @@
 	<string name="wishtabs_fragment_tv_header_my">My WishList</string>
 	<string name="wishtabs_fragment_tv_header_network">Server WishList</string>
 	<string name="wishtabs_fragment_tv_empty_list">List is empty</string>
+
+	<!-- WishAdd fragment -->
+	<string name="wishadd_fragment_toolbar_title">Add Wish</string>
+	<string name="wishadd_fragment_tv_title_add">Enter title and description of the wish</string>
+	<string name="wishadd_fragment_et_hint_title">Title</string>
+	<string name="wishadd_fragment_et_hint_description">Description</string>
+	<string name="wishadd_fragment_btn_text_add">Add</string>
+
+	<!-- WishDetail fragment -->
+	<string name="wishdetail_fragment_tv_favourite">Added to favourite</string>
 
 </resources>
