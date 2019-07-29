@@ -7,10 +7,8 @@ import kotlinx.android.synthetic.main.fragment_wishtabs.*
 import ru.ktsstudio.wishlist.R
 import ru.ktsstudio.wishlist.data.models.WishAdapterModel.Wish
 import ru.ktsstudio.wishlist.ui.BaseFragment
-import ru.ktsstudio.wishlist.ui.OnBackPressed
-import ru.ktsstudio.wishlist.ui.app.MainActivity
 import ru.ktsstudio.wishlist.ui.main.MainNavigator
-import ru.ktsstudio.wishlist.ui.main.wishtabs.adapters.WishTabsFragmentStatePagerAdapter
+import ru.ktsstudio.wishlist.ui.main.wishtabs.adapters.WishTabsPagerAdapter
 import ru.ktsstudio.wishlist.utils.addTo
 
 class WishTabsFragment : BaseFragment(), WishTabsNavigator {
@@ -42,7 +40,7 @@ class WishTabsFragment : BaseFragment(), WishTabsNavigator {
 
     private fun setupViewPager() {
         with(pager) {
-            adapter = WishTabsFragmentStatePagerAdapter(childFragmentManager) { resId -> context.getString(resId) }
+            adapter = WishTabsPagerAdapter(childFragmentManager) { resId -> context.getString(resId) }
             offscreenPageLimit = 2
         }
     }

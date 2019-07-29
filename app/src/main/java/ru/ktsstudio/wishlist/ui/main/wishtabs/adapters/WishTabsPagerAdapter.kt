@@ -2,14 +2,14 @@ package ru.ktsstudio.wishlist.ui.main.wishtabs.adapters
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentStatePagerAdapter
+import androidx.fragment.app.FragmentPagerAdapter
 import ru.ktsstudio.wishlist.R
 import ru.ktsstudio.wishlist.ui.main.wishtabs.FavoriteFragment
 import ru.ktsstudio.wishlist.ui.main.wishtabs.MyFragment
 import ru.ktsstudio.wishlist.ui.main.wishtabs.PopularFragment
 
-class WishTabsFragmentStatePagerAdapter(fragmentManager: FragmentManager, getStr: (Int) -> String) :
-    FragmentStatePagerAdapter(fragmentManager) {
+class WishTabsPagerAdapter(fragmentManager: FragmentManager, getStr: (Int) -> String) :
+    FragmentPagerAdapter(fragmentManager) {
 
     private val tabs = listOf(
         getStr(R.string.wishtabs_fragment_tab_favorite),
@@ -29,5 +29,7 @@ class WishTabsFragmentStatePagerAdapter(fragmentManager: FragmentManager, getStr
     override fun getPageTitle(position: Int): CharSequence? = tabs[position]
 
     override fun getCount() = tabs.size
+
+
 
 }

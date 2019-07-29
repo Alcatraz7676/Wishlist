@@ -36,7 +36,6 @@ abstract class WishFragment : BaseFragment() {
 
     override fun onDestroyView() {
         Log.i("WishFragment", "onDestroyView()")
-        recycler_view.adapter = null
         super.onDestroyView()
     }
 
