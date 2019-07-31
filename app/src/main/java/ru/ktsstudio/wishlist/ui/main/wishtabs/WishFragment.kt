@@ -20,43 +20,43 @@ abstract class WishFragment : BaseFragment() {
     private val wishTabsNavigator: WishTabsNavigator
         get() = parentFragment as WishTabsNavigator
 
-    protected lateinit var adapter: WishAdapter
+    protected val wishAdapter: WishAdapter by lazy {
+        WishAdapter(getWishes())
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_rv, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        Log.i("WishFragment", "onViewCreated()")
         super.onViewCreated(view, savedInstanceState)
-        adapter = WishAdapter(getWishes())
-        initList(adapter)
-        initSwipeRefreshLayout(adapter)
+        initList()
+        initSwipeRefreshLayout()
     }
 
     override fun onDestroyView() {
-        Log.i("WishFragment", "onDestroyView()")
         super.onDestroyView()
+        recycler_view.adapter = null
     }
 
-    private fun initList(adapter: WishAdapter) {
+    private fun initList() {
         with(recycler_view) {
-            this.adapter = adapter
+            adapter = wishAdapter
             layoutManager = LinearLayoutManager(activity)
             addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
             setHasFixedSize(true)
         }
-        adapter.clickEvent
+        wishAdapter.clickEvent
             .subscribe{
                 wishTabsNavigator.navigateToWishDetail(it)
             }.addTo(compositeDisposable)
     }
 
-    private fun initSwipeRefreshLayout(adapter: WishAdapter) {
+    private fun initSwipeRefreshLayout() {
         with(swipeContainer) {
             setColorSchemeResources(R.color.colorAccent)
             refreshes().subscribe {
-                adapter.items = getWishes()
+                wishAdapter.items = getWishes()
                 swipeContainer.isRefreshing = false
             }.addTo(compositeDisposable)
         }

@@ -53,7 +53,7 @@ class MyFragment : WishFragment() {
     private fun setItems(items: List<WishAdapterModel>?) {
         val header = getHeader()
         tv_empty_list.isVisible = items?.none { it is Wish } != false
-        adapter.items = if (items != null) listOf(header) + items else listOf(header)
+        wishAdapter.items = if (items != null) listOf(header) + items else listOf(header)
     }
 
     private fun getHeader() = Header(resources.getString(R.string.wishtabs_fragment_tv_header_my))
