@@ -28,6 +28,8 @@
 	<string name="wishadd_fragment_et_hint_title">Название</string>
 	<string name="wishadd_fragment_et_hint_description">Описание</string>
 	<string name="wishadd_fragment_btn_text_add">Создать</string>
+	<string name="wishadd_fragment_toast_success">Wish успешно добавлен</string>
+	<string name="wishadd_fragment_toast_failed">Не удалось добавить Wish</string>
 
 	<!-- WishDetail fragment -->
 	<string name="wishdetail_fragment_tv_favourite">Добавлено в избранное</string>

@@ -11,9 +11,9 @@ fun FragmentManager.navigateReplace(containerId: Int, fragment: Fragment) {
         .commitNow()
 }
 
-fun FragmentManager.navigateAdd(containerId: Int, fragment: Fragment, tag: String? = null) {
+fun FragmentManager.navigateAdd(containerId: Int, fragment: Fragment) {
     this.beginTransaction()
-        .addToBackStack(tag)
+        .addToBackStack(null)
         .replace(containerId, fragment)
         .commit()
 }

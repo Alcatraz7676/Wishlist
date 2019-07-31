@@ -31,7 +31,7 @@ class AuthFragmentContainer : Fragment(), AuthNavigator, OnBackPressed {
     }
 
     override fun navigateToRegister() {
-        childFragmentManager.navigateAdd(R.id.fragment_content, RegisterFragment(), "REGISTER")
+        childFragmentManager.navigateAdd(R.id.fragment_content, RegisterFragment())
     }
 
     override fun navigateToMain() {

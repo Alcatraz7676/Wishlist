@@ -67,12 +67,12 @@ class WishAddFragment : BaseFragment() {
             }
             .subscribe({ response ->
                 if (response?.status == "ok") {
-                    showToast("Wish успешно добавлен!")
+                    showToast(context?.getString(R.string.wishadd_fragment_toast_success))
                 } else {
-                    showToast(response.message ?: "Не удалось добавить Wish")
+                    showToast(response.message ?: context?.getString(R.string.wishadd_fragment_toast_failed))
                 }
             }, {
-                showToast("Не удалось добавить Wish")
+                showToast(context?.getString(R.string.wishadd_fragment_toast_failed))
             })
             .addTo(compositeDisposable)
     }
@@ -88,7 +88,7 @@ class WishAddFragment : BaseFragment() {
 
     }
 
-    private fun showToast(text: String) {
+    private fun showToast(text: String?) {
         Toast.makeText(activity, text, Toast.LENGTH_LONG).show()
     }
 

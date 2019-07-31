@@ -21,7 +21,7 @@ class WishDetailFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (arguments != null) {
+        arguments?.let {
             val wish = arguments!!.getParcelable<Wish>(ARGS_WISH)
             setupFragment(wish)
         }
@@ -58,7 +58,7 @@ class WishDetailFragment : BaseFragment() {
     }
 
     companion object {
-        const val ARGS_WISH = "wish"
+        private const val ARGS_WISH = "wish"
 
         fun newInstance(wish: Wish): WishDetailFragment {
             val wishDetailFragment = WishDetailFragment()

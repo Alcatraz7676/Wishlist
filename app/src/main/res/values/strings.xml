@@ -29,6 +29,8 @@
 	<string name="wishadd_fragment_et_hint_title">Title</string>
 	<string name="wishadd_fragment_et_hint_description">Description</string>
 	<string name="wishadd_fragment_btn_text_add">Add</string>
+	<string name="wishadd_fragment_toast_success">Wish added successfully</string>
+	<string name="wishadd_fragment_toast_failed">Failed to add a wish</string>
 
 	<!-- WishDetail fragment -->
 	<string name="wishdetail_fragment_tv_favourite">Added to favourite</string>

@@ -9,7 +9,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
 import com.hannesdorfmann.adapterdelegates4.AbsListItemAdapterDelegate
-import io.reactivex.subjects.PublishSubject
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_wish.*
 import ru.ktsstudio.wishlist.R
@@ -18,7 +17,7 @@ import ru.ktsstudio.wishlist.data.models.WishAdapterModel.Wish
 import ru.ktsstudio.wishlist.utils.IMAGE_PLACEHOLDER_URL
 import ru.ktsstudio.wishlist.utils.ProgressPlaceholder
 
-class WishAdapterDelegate(private val clickSubject: PublishSubject<Wish>) :
+class WishAdapterDelegate(private val clickListener: (Wish) -> Unit) :
     AbsListItemAdapterDelegate<Wish, WishAdapterModel, WishAdapterDelegate.WishHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup): WishHolder {
@@ -61,7 +60,7 @@ class WishAdapterDelegate(private val clickSubject: PublishSubject<Wish>) :
                 tv_author.isVisible = login != null
             }
             containerView.setOnClickListener {
-                clickSubject.onNext(wish)
+                clickListener(wish)
             }
 
         }

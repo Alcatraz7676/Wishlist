@@ -21,7 +21,7 @@ abstract class WishFragment : BaseFragment() {
         get() = parentFragment as WishTabsNavigator
 
     protected val wishAdapter: WishAdapter by lazy {
-        WishAdapter(getWishes())
+        WishAdapter(getWishes()) { wishTabsNavigator.navigateToWishDetail(it) }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -46,10 +46,6 @@ abstract class WishFragment : BaseFragment() {
             addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
             setHasFixedSize(true)
         }
-        wishAdapter.clickEvent
-            .subscribe{
-                wishTabsNavigator.navigateToWishDetail(it)
-            }.addTo(compositeDisposable)
     }
 
     private fun initSwipeRefreshLayout() {

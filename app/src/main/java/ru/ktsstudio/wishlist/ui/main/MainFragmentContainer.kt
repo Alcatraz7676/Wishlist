@@ -32,11 +32,11 @@ class MainFragmentContainer : Fragment(), MainNavigator, OnBackPressed {
     }
 
     override fun navigateToWishAdd() {
-        childFragmentManager.navigateAdd(R.id.fragment_content, WishAddFragment(), "ADD")
+        childFragmentManager.navigateAdd(R.id.fragment_content, WishAddFragment())
     }
 
     override fun navigateToWishDetail(wish: WishAdapterModel.Wish) {
-        childFragmentManager.navigateAdd(R.id.fragment_content, WishDetailFragment.newInstance(wish), "DETAIL")
+        childFragmentManager.navigateAdd(R.id.fragment_content, WishDetailFragment.newInstance(wish))
     }
 
     override fun onBackPressed() = childFragmentManager.popBackStackImmediate()
