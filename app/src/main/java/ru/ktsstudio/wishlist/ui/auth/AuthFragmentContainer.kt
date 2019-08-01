@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import ru.ktsstudio.wishlist.R
 import ru.ktsstudio.wishlist.ui.app.ActivityNavigator
 import ru.ktsstudio.wishlist.ui.OnBackPressed
+import ru.ktsstudio.wishlist.ui.auth.login.LoginFragment
+import ru.ktsstudio.wishlist.ui.auth.register.RegisterFragment
 import ru.ktsstudio.wishlist.utils.navigateAdd
 import ru.ktsstudio.wishlist.utils.navigateReplace
 
@@ -36,12 +38,6 @@ class AuthFragmentContainer : Fragment(), AuthNavigator, OnBackPressed {
         requireActivity().let { it as? ActivityNavigator }?.navigateToMainScreen()
     }
 
-    override fun onBackPressed(): Boolean {
-        val fragment = childFragmentManager.findFragmentById(R.id.fragment_content)
-        if (fragment is RegisterFragment) {
-            return childFragmentManager.popBackStackImmediate()
-        }
-        return false
-    }
+    override fun onBackPressed() = childFragmentManager.popBackStackImmediate()
 
 }
