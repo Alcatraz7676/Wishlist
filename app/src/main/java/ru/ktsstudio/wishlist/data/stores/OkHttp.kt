@@ -4,6 +4,7 @@ import android.util.Log
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import ru.ktsstudio.wishlist.data.network.AddTokenHeaderInterceptor
+import ru.ktsstudio.wishlist.data.network.HttpStatusInterceptor
 
 object OkHttp {
 
@@ -16,6 +17,7 @@ object OkHttp {
 
     val instance: OkHttpClient = OkHttpClient.Builder()
         .addInterceptor(AddTokenHeaderInterceptor())
+        .addInterceptor(HttpStatusInterceptor())
         .addInterceptor(loggingInterceptor)
         .build()
 }

@@ -12,17 +12,16 @@ import kotlinx.android.synthetic.main.fragment_register.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.Observables
 import io.reactivex.schedulers.Schedulers
-import retrofit2.HttpException
 import ru.ktsstudio.wishlist.R
 import ru.ktsstudio.wishlist.data.models.body.RegisterBody
 import ru.ktsstudio.wishlist.data.models.User
+import ru.ktsstudio.wishlist.data.network.HttpStatusInterceptor
 import ru.ktsstudio.wishlist.data.stores.RetrofitStore
 import ru.ktsstudio.wishlist.data.stores.TokenStore
 import ru.ktsstudio.wishlist.ui.BaseFragment
 import ru.ktsstudio.wishlist.ui.app.MainActivity
 import ru.ktsstudio.wishlist.ui.auth.AuthNavigator
 import ru.ktsstudio.wishlist.utils.addTo
-import java.net.HttpURLConnection
 
 class RegisterFragment : BaseFragment() {
 
@@ -72,8 +71,8 @@ class RegisterFragment : BaseFragment() {
                 (activity as MainActivity).currentUser = User(response.data?.email!!)
                 authNavigator.navigateToMain()
             }, {
-                if (it is HttpException && it.code() == HttpURLConnection.HTTP_UNAUTHORIZED)
-                    showToast("Неверный логин или пароль")
+                if (it is HttpStatusInterceptor.UserExistsException)
+                    showToast("Пользователь с такой почтой уже существует")
                 else
                     showToast("Не удалось авторизоваться")
             })

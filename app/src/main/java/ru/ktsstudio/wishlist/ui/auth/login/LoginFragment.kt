@@ -12,17 +12,16 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.Observables
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_login.*
-import retrofit2.HttpException
 import ru.ktsstudio.wishlist.R
 import ru.ktsstudio.wishlist.data.models.body.LoginBody
 import ru.ktsstudio.wishlist.data.models.User
+import ru.ktsstudio.wishlist.data.network.HttpStatusInterceptor
 import ru.ktsstudio.wishlist.data.stores.RetrofitStore
 import ru.ktsstudio.wishlist.data.stores.TokenStore
 import ru.ktsstudio.wishlist.ui.BaseFragment
 import ru.ktsstudio.wishlist.ui.app.MainActivity
 import ru.ktsstudio.wishlist.ui.auth.AuthNavigator
 import ru.ktsstudio.wishlist.utils.addTo
-import java.net.HttpURLConnection
 
 class LoginFragment : BaseFragment() {
 
@@ -67,7 +66,7 @@ class LoginFragment : BaseFragment() {
                 (activity as MainActivity).currentUser = User(response.data?.email!!)
                 authNavigator.navigateToMain()
             }, {
-                if (it is HttpException && it.code() == HttpURLConnection.HTTP_UNAUTHORIZED)
+                if (it is HttpStatusInterceptor.UnauthorizedException)
                     showToast("Неверный логин или пароль")
                 else
                     showToast("Не удалось авторизоваться")
