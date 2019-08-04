@@ -8,26 +8,29 @@ import androidx.appcompat.app.AppCompatActivity
 import com.github.karczews.rxbroadcastreceiver.RxBroadcastReceivers
 import com.google.android.material.snackbar.Snackbar
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.addTo
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.ktsstudio.wishlist.R
-import ru.ktsstudio.wishlist.data.models.User
+import ru.ktsstudio.wishlist.WishApp
 import ru.ktsstudio.wishlist.ui.auth.AuthFragmentContainer
 import ru.ktsstudio.wishlist.ui.main.MainFragmentContainer
 import ru.ktsstudio.wishlist.ui.OnBackPressed
-import ru.ktsstudio.wishlist.utils.addTo
+import ru.ktsstudio.wishlist.utils.KEY_USER_LOGIN
 import ru.ktsstudio.wishlist.utils.navigateReplace
 
 class MainActivity : AppCompatActivity(), ActivityNavigator {
 
     private var compositeDisposable = CompositeDisposable()
     private var snackbar: Snackbar? = null
-    var currentUser: User? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        if (savedInstanceState == null) {
+        val userLogin = WishApp.sharedPreferences.getString(KEY_USER_LOGIN, null)
+        if (userLogin == null) {
             navigateToLoginScreen()
+        } else {
+            navigateToMainScreen()
         }
     }
 
@@ -35,14 +38,14 @@ class MainActivity : AppCompatActivity(), ActivityNavigator {
         super.onResume()
         val filter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
         RxBroadcastReceivers.fromIntentFilter(this, filter)
-            .subscribe { intent ->
-                if (intent?.extras?.getBoolean(ConnectivityManager.EXTRA_NO_CONNECTIVITY) == true) {
-                    snackbar = makeSnackbar(activity_content)
-                    snackbar?.show()
-                } else {
-                    snackbar?.dismiss()
-                }
-            }.addTo(compositeDisposable)
+                .subscribe { intent ->
+                    if (intent?.extras?.getBoolean(ConnectivityManager.EXTRA_NO_CONNECTIVITY) == true) {
+                        snackbar = makeSnackbar(activity_content)
+                        snackbar?.show()
+                    } else {
+                        snackbar?.dismiss()
+                    }
+                }.addTo(compositeDisposable)
     }
 
     override fun onPause() {
@@ -66,6 +69,6 @@ class MainActivity : AppCompatActivity(), ActivityNavigator {
     }
 
     private fun makeSnackbar(view: View) =
-        Snackbar.make(view, R.string.main_activity_snackbar_network_missing, Snackbar.LENGTH_INDEFINITE)
+            Snackbar.make(view, R.string.main_activity_snackbar_network_missing, Snackbar.LENGTH_INDEFINITE)
 
 }

@@ -10,6 +10,7 @@ import com.jakewharton.rxbinding3.view.clicks
 import com.jakewharton.rxbinding3.widget.textChanges
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.Observables
+import io.reactivex.rxkotlin.addTo
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_add_wish.*
 import kotlinx.android.synthetic.main.fragment_wishtabs.toolbar
@@ -17,7 +18,6 @@ import ru.ktsstudio.wishlist.R
 import ru.ktsstudio.wishlist.data.models.body.AddBody
 import ru.ktsstudio.wishlist.data.stores.RetrofitStore
 import ru.ktsstudio.wishlist.ui.BaseFragment
-import ru.ktsstudio.wishlist.utils.addTo
 
 class WishAddFragment : BaseFragment() {
 
@@ -30,9 +30,9 @@ class WishAddFragment : BaseFragment() {
         setupToolbar()
         setupEditText()
         btn_add.clicks()
-            .subscribe{
-                addWish(input_title.text.toString(), input_description.text.toString())
-            }.addTo(compositeDisposable)
+                .subscribe {
+                    addWish(input_title.text.toString(), input_description.text.toString())
+                }.addTo(compositeDisposable)
     }
 
     private fun setupToolbar() {
@@ -48,33 +48,25 @@ class WishAddFragment : BaseFragment() {
     private fun setupEditText() {
         val emailObservable = input_title.textChanges()
         val passwordObservable = input_description.textChanges()
-
-        Observables.combineLatest(emailObservable, passwordObservable) {
-                newEmail, newPassword -> btn_add.isEnabled = newEmail.isNotBlank() && newPassword.isNotBlank()
+        Observables.combineLatest(emailObservable, passwordObservable) { newEmail, newPassword ->
+            btn_add.isEnabled = newEmail.isNotBlank() && newPassword.isNotBlank()
         }.subscribe()
     }
 
     private fun addWish(title: String, description: String) {
-        RetrofitStore.service.addWish(
-            AddBody(title, description)
-        )
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { showLoading(true) }
-            .doOnTerminate {
-                clearEditText()
-                showLoading(false)
-            }
-            .subscribe({ response ->
-                if (response?.status == "ok") {
-                    showToast(context?.getString(R.string.wishadd_fragment_toast_success))
-                } else {
-                    showToast(response.message ?: context?.getString(R.string.wishadd_fragment_toast_failed))
+        RetrofitStore.service.addWish(AddBody(title, description))
+                .subscribeOn(Schedulers.io())
+                .doOnSubscribe { showLoading(true) }
+                .observeOn(AndroidSchedulers.mainThread())
+                .doAfterTerminate {
+                    clearEditText()
+                    showLoading(false)
                 }
-            }, {
-                showToast(context?.getString(R.string.wishadd_fragment_toast_failed))
-            })
-            .addTo(compositeDisposable)
+                .subscribe({
+                    showToast(context?.getString(R.string.wishadd_fragment_toast_success))
+                }, {
+                    showToast(context?.getString(R.string.wishadd_fragment_toast_failed))
+                }).addTo(compositeDisposable)
     }
 
     private fun showLoading(toLoad: Boolean) {
@@ -85,7 +77,6 @@ class WishAddFragment : BaseFragment() {
     private fun clearEditText() {
         input_title.text.clear()
         input_description.text.clear()
-
     }
 
     private fun showToast(text: String?) {

@@ -1,38 +1,39 @@
 <resources>
-	<string name="app_name" translatable="false">Wishlist</string>
+    <string name="app_name" translatable="false">Wishlist</string>
 
-	<!-- Main Activity -->
-	<string name="main_activity_snackbar_network_missing">Network is missing</string>
+    <!-- Main Activity -->
+    <string name="main_activity_snackbar_network_missing">Network is missing</string>
 
-	<!-- Login fragment -->
-	<string name="login_fragment_et_hint_name">Name</string>
-	<string name="login_fragment_et_hint_surname">Surname</string>
-	<string name="login_fragment_et_hint_email" translatable="false">E-mail</string>
-	<string name="login_fragment_et_hint_password">Password</string>
-	<string name="login_fragment_btn_text_login">Login</string>
-	<string name="login_fragment_btn_text_register">Register</string>
+    <!-- Login fragment -->
+    <string name="login_fragment_et_hint_name">Name</string>
+    <string name="login_fragment_et_hint_surname">Surname</string>
+    <string name="login_fragment_et_hint_email" translatable="false">E-mail</string>
+    <string name="login_fragment_et_hint_password">Password</string>
+    <string name="login_fragment_btn_text_login">Login</string>
+    <string name="login_fragment_btn_text_register">Register</string>
 
-	<!-- WishTabs fragment -->
-	<string name="wishtabs_fragment_tab_favorite">Favorite</string>
-	<string name="wishtabs_fragment_tab_popular">Popular</string>
-	<string name="wishtabs_fragment_tab_my">My</string>
-	<string name="wishtabs_fragment_tv_author">Author: %1$s</string>
-	<string name="wishtabs_fragment_tv_header_favorite">Favorite WishList</string>
-	<string name="wishtabs_fragment_tv_header_popular">Popular WishList</string>
-	<string name="wishtabs_fragment_tv_header_my">My WishList</string>
-	<string name="wishtabs_fragment_tv_header_network">Server WishList</string>
-	<string name="wishtabs_fragment_tv_empty_list">List is empty</string>
+    <!-- WishTabs fragment -->
+    <string name="wishtabs_fragment_tab_favorite">Favorite</string>
+    <string name="wishtabs_fragment_tab_popular">Popular</string>
+    <string name="wishtabs_fragment_tab_my">My</string>
+    <string name="wishtabs_fragment_tv_author">Author: %1$s</string>
+    <string name="wishtabs_fragment_tv_header_favorite">Favorite WishList</string>
+    <string name="wishtabs_fragment_tv_header_popular">Popular WishList</string>
+    <string name="wishtabs_fragment_tv_header_my">My WishList</string>
+    <string name="wishtabs_fragment_tv_header_network">Server WishList</string>
+    <string name="wishtabs_fragment_tv_empty_list">List is empty</string>
+    <string name="wishtabs_menu_logout_item">Logout</string>
 
-	<!-- WishAdd fragment -->
-	<string name="wishadd_fragment_toolbar_title">Add Wish</string>
-	<string name="wishadd_fragment_tv_title_add">Enter title and description of the wish</string>
-	<string name="wishadd_fragment_et_hint_title">Title</string>
-	<string name="wishadd_fragment_et_hint_description">Description</string>
-	<string name="wishadd_fragment_btn_text_add">Add</string>
-	<string name="wishadd_fragment_toast_success">Wish added successfully</string>
-	<string name="wishadd_fragment_toast_failed">Failed to add a wish</string>
+    <!-- WishAdd fragment -->
+    <string name="wishadd_fragment_toolbar_title">Add Wish</string>
+    <string name="wishadd_fragment_tv_title_add">Enter title and description of the wish</string>
+    <string name="wishadd_fragment_et_hint_title">Title</string>
+    <string name="wishadd_fragment_et_hint_description">Description</string>
+    <string name="wishadd_fragment_btn_text_add">Add</string>
+    <string name="wishadd_fragment_toast_success">Wish added successfully</string>
+    <string name="wishadd_fragment_toast_failed">Failed to add a wish</string>
 
-	<!-- WishDetail fragment -->
-	<string name="wishdetail_fragment_tv_favourite">Added to favourite</string>
+    <!-- WishDetail fragment -->
+    <string name="wishdetail_fragment_tv_favourite">Added to favourite</string>
 
 </resources>

@@ -11,17 +11,17 @@ import com.jakewharton.rxbinding3.widget.textChanges
 import kotlinx.android.synthetic.main.fragment_register.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.Observables
+import io.reactivex.rxkotlin.addTo
 import io.reactivex.schedulers.Schedulers
 import ru.ktsstudio.wishlist.R
+import ru.ktsstudio.wishlist.WishApp
 import ru.ktsstudio.wishlist.data.models.body.RegisterBody
-import ru.ktsstudio.wishlist.data.models.User
 import ru.ktsstudio.wishlist.data.network.HttpStatusInterceptor
 import ru.ktsstudio.wishlist.data.stores.RetrofitStore
-import ru.ktsstudio.wishlist.data.stores.TokenStore
 import ru.ktsstudio.wishlist.ui.BaseFragment
-import ru.ktsstudio.wishlist.ui.app.MainActivity
 import ru.ktsstudio.wishlist.ui.auth.AuthNavigator
-import ru.ktsstudio.wishlist.utils.addTo
+import ru.ktsstudio.wishlist.utils.KEY_TOKEN
+import ru.ktsstudio.wishlist.utils.KEY_USER_LOGIN
 
 class RegisterFragment : BaseFragment() {
 
@@ -46,8 +46,7 @@ class RegisterFragment : BaseFragment() {
         val nameObservable = input_name.textChanges()
         val surnameObservable = input_surname.textChanges()
 
-        Observables.combineLatest(emailObservable, passwordObservable, nameObservable, surnameObservable) {
-                newEmail, newPassword, newName, newSurname ->
+        Observables.combineLatest(emailObservable, passwordObservable, nameObservable, surnameObservable) { newEmail, newPassword, newName, newSurname ->
             btn_register.isEnabled = newEmail.isNotBlank() && newPassword.isNotBlank() &&
                     newName.isNotBlank() && newSurname.isNotBlank()
         }.subscribe()
@@ -55,28 +54,30 @@ class RegisterFragment : BaseFragment() {
 
     private fun register() {
         RetrofitStore.service.register(
-            RegisterBody(
-                firstName = input_name.text.toString(),
-                lastName = input_surname.text.toString(),
-                email = input_email.text.toString(),
-                password = input_password.text.toString()
-            )
+                RegisterBody(
+                        firstName = input_name.text.toString(),
+                        lastName = input_surname.text.toString(),
+                        email = input_email.text.toString(),
+                        password = input_password.text.toString()
+                )
         )
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { showLoading(true) }
-            .doOnTerminate { showLoading(false) }
-            .subscribe({ response ->
-                TokenStore.token = response.data?.token
-                (activity as MainActivity).currentUser = User(response.data?.email!!)
-                authNavigator.navigateToMain()
-            }, {
-                if (it is HttpStatusInterceptor.UserExistsException)
-                    showToast("Пользователь с такой почтой уже существует")
-                else
-                    showToast("Не удалось авторизоваться")
-            })
-            .addTo(compositeDisposable)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe { showLoading(true) }
+                .doOnTerminate { showLoading(false) }
+                .subscribe({ response ->
+                    WishApp.sharedPreferences.edit().apply {
+                        putString(KEY_TOKEN, response.data?.token)
+                        putString(KEY_USER_LOGIN, response.data?.email)
+                    }.apply()
+                    authNavigator.navigateToMain()
+                }, {
+                    if (it is HttpStatusInterceptor.UserExistsException)
+                        showToast("Пользователь с такой почтой уже существует")
+                    else
+                        showToast("Не удалось авторизоваться")
+                })
+                .addTo(compositeDisposable)
     }
 
     private fun showLoading(toLoad: Boolean) {

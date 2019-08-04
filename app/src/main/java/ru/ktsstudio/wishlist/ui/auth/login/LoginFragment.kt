@@ -10,18 +10,18 @@ import com.jakewharton.rxbinding3.view.clicks
 import com.jakewharton.rxbinding3.widget.textChanges
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.Observables
+import io.reactivex.rxkotlin.addTo
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_login.*
 import ru.ktsstudio.wishlist.R
+import ru.ktsstudio.wishlist.WishApp
 import ru.ktsstudio.wishlist.data.models.body.LoginBody
-import ru.ktsstudio.wishlist.data.models.User
 import ru.ktsstudio.wishlist.data.network.HttpStatusInterceptor
 import ru.ktsstudio.wishlist.data.stores.RetrofitStore
-import ru.ktsstudio.wishlist.data.stores.TokenStore
 import ru.ktsstudio.wishlist.ui.BaseFragment
-import ru.ktsstudio.wishlist.ui.app.MainActivity
 import ru.ktsstudio.wishlist.ui.auth.AuthNavigator
-import ru.ktsstudio.wishlist.utils.addTo
+import ru.ktsstudio.wishlist.utils.KEY_TOKEN
+import ru.ktsstudio.wishlist.utils.KEY_USER_LOGIN
 
 class LoginFragment : BaseFragment() {
 
@@ -36,7 +36,6 @@ class LoginFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupEditText()
         btn_login.clicks().subscribe {
-            (activity as MainActivity).currentUser = User(input_email.text.toString())
             login(input_email.text.toString(), input_password.text.toString())
         }.addTo(compositeDisposable)
         btn_register.clicks().subscribe {
@@ -62,8 +61,12 @@ class LoginFragment : BaseFragment() {
             .doOnSubscribe { showLoading(true) }
             .doOnTerminate { showLoading(false) }
             .subscribe({ response ->
-                TokenStore.token = response.data?.token
-                (activity as MainActivity).currentUser = User(response.data?.email!!)
+                val editor = WishApp.sharedPreferences.edit()
+                editor.apply {
+                    putString(KEY_TOKEN, response.data?.token)
+                    putString(KEY_USER_LOGIN, response.data?.email)
+                }
+                editor.apply()
                 authNavigator.navigateToMain()
             }, {
                 if (it is HttpStatusInterceptor.UnauthorizedException)

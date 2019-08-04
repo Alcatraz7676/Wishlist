@@ -30,7 +30,7 @@ class WishDetailFragment : BaseFragment() {
 
     private fun setupToolbar() {
         with(toolbar) {
-            title = resources.getString(R.string.wishadd_fragment_toolbar_title)
+            title = resources.getString(R.string.app_name)
             setNavigationIcon(R.drawable.ic_arrow_back_white_24dp)
             setNavigationOnClickListener {
                 activity?.onBackPressed()
@@ -43,15 +43,15 @@ class WishDetailFragment : BaseFragment() {
             tv_title.text = title
             tv_description.text = description
             tv_favourite.isVisible = wish.isFavourite
-            if (photoId != null) {
+            if (photoId != 0) {
                 Glide.with(iv_wish)
-                    .load("$IMAGE_PLACEHOLDER_URL/${wish.photoId}")
-                    .placeholder(ProgressPlaceholder(context!!))
-                    .error(R.drawable.bg_placeholder)
-                    .into(iv_wish)
+                        .load("$IMAGE_PLACEHOLDER_URL/${wish.photoId}")
+                        .placeholder(ProgressPlaceholder(context!!))
+                        .error(R.drawable.bg_placeholder)
+                        .into(iv_wish)
                 iv_wish.isVisible = true
             }
-            val login = author?.takeIf { it.login.isNotBlank() }?.login
+            val login = author.takeIf { it.login.isNotBlank() }?.login
             tv_author.text = context?.getString(R.string.wishtabs_fragment_tv_author, login)
             tv_author.isVisible = login != null
         }

@@ -21,6 +21,7 @@
 	<string name="wishtabs_fragment_tv_header_my">Список моих желаний</string>
 	<string name="wishtabs_fragment_tv_header_network">Список желаний с сервера</string>
 	<string name="wishtabs_fragment_tv_empty_list">Список пуст</string>
+	<string name="wishtabs_menu_logout_item">Выйти</string>
 
 	<!-- WishAdd fragment -->
 	<string name="wishadd_fragment_toolbar_title">Добавить Wish</string>

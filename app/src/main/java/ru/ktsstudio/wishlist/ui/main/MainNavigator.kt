@@ -6,4 +6,5 @@ interface MainNavigator {
     fun navigateToWishTabs()
     fun navigateToWishAdd()
     fun navigateToWishDetail(wish: Wish)
+    fun navigateToLogin()
 }
