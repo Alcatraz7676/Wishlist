@@ -57,7 +57,7 @@ abstract class WishFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val scope = Toothpick.openScopes(DI.APP, DI.ACTIVITY)
+        val scope = Toothpick.openScope(DI.APP)
         Toothpick.inject(this, scope)
     }
 

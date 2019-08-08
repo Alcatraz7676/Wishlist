@@ -37,6 +37,7 @@ ext {
     stethoVersion = "1.5.1"
     roomVersion = "2.1.0"
     toothpickVersion = "2.1.0"
+    moxyVersion = "1.7.0"
 }
 
 dependencies {
@@ -70,6 +71,9 @@ dependencies {
     kapt "androidx.room:room-compiler:$roomVersion"
     implementation "com.github.stephanenicolas.toothpick:toothpick-runtime:$toothpickVersion"
     kapt "com.github.stephanenicolas.toothpick:toothpick-compiler:$toothpickVersion"
+    implementation "tech.schoolhelper:moxy-x:$moxyVersion"
+    kapt "tech.schoolhelper:moxy-x-compiler:$moxyVersion"
+    implementation "tech.schoolhelper:moxy-x-androidx:$moxyVersion"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'

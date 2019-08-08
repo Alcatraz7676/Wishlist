@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
+import com.arellomobile.mvp.presenter.InjectPresenter
 import com.jakewharton.rxbinding3.view.clicks
 import com.jakewharton.rxbinding3.widget.textChanges
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -22,15 +23,14 @@ import ru.ktsstudio.wishlist.ui.BaseFragment
 import toothpick.Toothpick
 import javax.inject.Inject
 
-class WishAddFragment : BaseFragment() {
+class WishAddFragment : BaseFragment(), WishAddView {
 
-    @Inject
-    lateinit var wishApiService: WishApiService
+    @InjectPresenter
+    lateinit var presenter: WishAddPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val scope = Toothpick.openScopes(DI.APP, DI.ACTIVITY)
-        Toothpick.inject(this, scope)
+        presenter.onCreate()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -42,9 +42,9 @@ class WishAddFragment : BaseFragment() {
         setupToolbar()
         setupEditText()
         btn_add.clicks()
-                .subscribe {
-                    addWish(input_title.text.toString(), input_description.text.toString())
-                }.addTo(compositeDisposable)
+            .subscribe {
+                presenter.addWish(input_title.text.toString(), input_description.text.toString())
+            }.addTo(compositeDisposable)
     }
 
     private fun setupToolbar() {
@@ -65,33 +65,17 @@ class WishAddFragment : BaseFragment() {
         }.subscribe()
     }
 
-    private fun addWish(title: String, description: String) {
-        wishApiService.addWish(AddBody(title, description))
-                .subscribeOn(Schedulers.io())
-                .doOnSubscribe { showLoading(true) }
-                .observeOn(AndroidSchedulers.mainThread())
-                .doAfterTerminate {
-                    clearEditText()
-                    showLoading(false)
-                }
-                .subscribe({
-                    showToast(context?.getString(R.string.wishadd_fragment_toast_success))
-                }, {
-                    showToast(context?.getString(R.string.wishadd_fragment_toast_failed))
-                }).addTo(compositeDisposable)
-    }
-
-    private fun showLoading(toLoad: Boolean) {
+    override fun showLoading(toLoad: Boolean) {
         group_add.isVisible = !toLoad
         progress_bar.isVisible = toLoad
     }
 
-    private fun clearEditText() {
+    override fun clearEditText() {
         input_title.text.clear()
         input_description.text.clear()
     }
 
-    private fun showToast(text: String?) {
+    override fun showToast(text: String?) {
         Toast.makeText(activity, text, Toast.LENGTH_LONG).show()
     }
 

@@ -1,9 +1,9 @@
 package ru.ktsstudio.wishlist.ui
 
-import androidx.fragment.app.Fragment
+import com.arellomobile.mvp.MvpAppCompatFragment
 import io.reactivex.disposables.CompositeDisposable
 
-abstract class BaseFragment : Fragment() {
+abstract class BaseFragment : MvpAppCompatFragment() {
 
     protected val compositeDisposable by lazy {
         CompositeDisposable()
