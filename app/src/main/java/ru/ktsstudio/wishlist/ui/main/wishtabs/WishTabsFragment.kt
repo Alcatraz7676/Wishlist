@@ -74,8 +74,8 @@ class WishTabsFragment : BaseFragment(), WishTabsNavigator {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
             R.id.logout -> {
                 logout()
                 return true

@@ -84,6 +84,9 @@ class MainActivity : AppCompatActivity(), ActivityNavigator {
     }
 
     private fun makeSnackbar(view: View) =
-        Snackbar.make(view, R.string.main_activity_snackbar_network_missing, Snackbar.LENGTH_INDEFINITE)
-
+        Snackbar
+            .make(view, R.string.main_activity_snackbar_network_missing, Snackbar.LENGTH_INDEFINITE)
+            .setAction(R.string.main_activity_snackbar_network_missing_action) {
+                snackbar?.dismiss()
+            }
 }

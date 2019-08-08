@@ -3,6 +3,7 @@
 
     <!-- Main Activity -->
     <string name="main_activity_snackbar_network_missing">Network is missing</string>
+    <string name="main_activity_snackbar_network_missing_action">Ok</string>
 
     <!-- Login fragment -->
     <string name="login_fragment_et_hint_name">Name</string>

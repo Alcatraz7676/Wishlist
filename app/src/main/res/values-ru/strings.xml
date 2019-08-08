@@ -3,6 +3,7 @@
 
 	<!-- Activity -->
 	<string name="main_activity_snackbar_network_missing">Сеть отсутствует</string>
+	<string name="main_activity_snackbar_network_missing_action">Ок</string>
 
 	<!-- Login fragment -->
 	<string name="login_fragment_et_hint_name">Имя</string>
