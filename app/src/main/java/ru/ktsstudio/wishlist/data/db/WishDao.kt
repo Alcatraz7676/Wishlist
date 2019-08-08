@@ -1,9 +1,6 @@
 package ru.ktsstudio.wishlist.data.db
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -18,6 +15,9 @@ interface WishDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(wishes: Wish): Completable
+
+    @Update
+    fun update(wish: Wish): Completable
 
     @Query(WishAdapterModel.QUERY_ALL)
     fun observeAll(): Observable<List<Wish>>

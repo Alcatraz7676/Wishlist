@@ -2,6 +2,7 @@ package ru.ktsstudio.wishlist.ui.main.wishtabs
 
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,7 +39,20 @@ abstract class WishFragment : BaseFragment() {
         get() = parentFragment as WishTabsNavigator
 
     private val wishAdapter: WishAdapter by lazy {
-        WishAdapter(getHeader(), getContactNames()) { wishTabsNavigator.navigateToWishDetail(it) }
+        WishAdapter(
+            getHeader(),
+            getContactNames(),
+            {
+                wishTabsNavigator.navigateToWishDetail(it)
+            }, {
+                wishDao.update(it)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe {
+                        Log.d("WishFragment", "Wish успешно добавлен в избранное")
+                    }.addTo(compositeDisposable)
+            }
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

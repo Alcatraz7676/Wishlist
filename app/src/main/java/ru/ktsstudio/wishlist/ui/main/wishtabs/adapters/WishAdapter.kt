@@ -14,11 +14,12 @@ class WishAdapter : AsyncListDifferDelegationAdapter<WishAdapterModel> {
     constructor(
         header: Header,
         contactNames: List<String>?,
-        clickListener: (Wish) -> Unit
+        clickListener: (Wish) -> Unit,
+        addToFavouriteListener: (Wish) -> Unit
     ) : super(WishDiffCallback()) {
         sequenceOf(
             HeaderAdapterDelegate(),
-            WishAdapterDelegate(clickListener, contactNames)
+            WishAdapterDelegate(clickListener, addToFavouriteListener, contactNames)
         ).forEach { delegatesManager.addDelegate(it) }
 
         this.header = header

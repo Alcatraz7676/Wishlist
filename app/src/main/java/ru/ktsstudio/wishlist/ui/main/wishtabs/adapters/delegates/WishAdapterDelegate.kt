@@ -3,6 +3,7 @@ package ru.ktsstudio.wishlist.ui.main.wishtabs.adapters.delegates
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -17,8 +18,11 @@ import ru.ktsstudio.wishlist.data.models.WishAdapterModel.Wish
 import ru.ktsstudio.wishlist.utils.IMAGE_PLACEHOLDER_URL
 import ru.ktsstudio.wishlist.utils.ProgressPlaceholder
 
-class WishAdapterDelegate(private val clickListener: (Wish) -> Unit, private val contactNames: List<String>?) :
-    AbsListItemAdapterDelegate<Wish, WishAdapterModel, WishAdapterDelegate.WishHolder>() {
+class WishAdapterDelegate(
+    private val clickListener: (Wish) -> Unit,
+    private val changeFavouriteListener: (Wish) -> Unit,
+    private val contactNames: List<String>?
+) : AbsListItemAdapterDelegate<Wish, WishAdapterModel, WishAdapterDelegate.WishHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup): WishHolder {
         val view = LayoutInflater
@@ -54,7 +58,10 @@ class WishAdapterDelegate(private val clickListener: (Wish) -> Unit, private val
                         .into(iv_wish)
                 }
                 iv_wish.isVisible = photoId != 0
-                iv_favorite.isVisible = isFavourite
+
+                val favouriteImage = if (isFavourite) R.drawable.ic_star_accent_36dp else R.drawable.ic_star_border_36dp
+                iv_favorite.setImageDrawable(ContextCompat.getDrawable(containerView.context, favouriteImage))
+
                 val login = author.takeIf { it.login.isNotBlank() }?.login
                 tv_author.text = containerView.context.getString(R.string.wishtabs_fragment_tv_author, login)
                 contactNames?.let {
@@ -62,10 +69,14 @@ class WishAdapterDelegate(private val clickListener: (Wish) -> Unit, private val
                 }
                 tv_author.isVisible = login != null
             }
+
             containerView.setOnClickListener {
                 clickListener(wish)
             }
 
+            iv_favorite.setOnClickListener {
+                changeFavouriteListener(wish.copy(isFavourite = wish.isFavourite.not()))
+            }
         }
 
     }
