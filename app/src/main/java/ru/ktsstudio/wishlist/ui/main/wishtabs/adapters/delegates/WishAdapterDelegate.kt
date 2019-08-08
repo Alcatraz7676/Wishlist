@@ -17,13 +17,13 @@ import ru.ktsstudio.wishlist.data.models.WishAdapterModel.Wish
 import ru.ktsstudio.wishlist.utils.IMAGE_PLACEHOLDER_URL
 import ru.ktsstudio.wishlist.utils.ProgressPlaceholder
 
-class WishAdapterDelegate(private val clickListener: (Wish) -> Unit) :
-        AbsListItemAdapterDelegate<Wish, WishAdapterModel, WishAdapterDelegate.WishHolder>() {
+class WishAdapterDelegate(private val clickListener: (Wish) -> Unit, private val contactNames: List<String>?) :
+    AbsListItemAdapterDelegate<Wish, WishAdapterModel, WishAdapterDelegate.WishHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup): WishHolder {
         val view = LayoutInflater
-                .from(parent.context)
-                .inflate(R.layout.item_wish, parent, false)
+            .from(parent.context)
+            .inflate(R.layout.item_wish, parent, false)
 
         return WishHolder(view)
     }
@@ -37,7 +37,7 @@ class WishAdapterDelegate(private val clickListener: (Wish) -> Unit) :
     }
 
     inner class WishHolder(override val containerView: View) :
-            RecyclerView.ViewHolder(containerView), LayoutContainer {
+        RecyclerView.ViewHolder(containerView), LayoutContainer {
 
         private val factory = DrawableCrossFadeFactory.Builder().setCrossFadeEnabled(true).build()
 
@@ -47,16 +47,19 @@ class WishAdapterDelegate(private val clickListener: (Wish) -> Unit) :
                 tv_description.text = description
                 if (photoId != 0) {
                     Glide.with(iv_wish)
-                            .load("$IMAGE_PLACEHOLDER_URL/${wish.photoId}")
-                            .placeholder(ProgressPlaceholder(containerView.context))
-                            .error(R.drawable.bg_placeholder)
-                            .transition(DrawableTransitionOptions.withCrossFade(factory))
-                            .into(iv_wish)
+                        .load("$IMAGE_PLACEHOLDER_URL/${wish.photoId}")
+                        .placeholder(ProgressPlaceholder(containerView.context))
+                        .error(R.drawable.bg_placeholder)
+                        .transition(DrawableTransitionOptions.withCrossFade(factory))
+                        .into(iv_wish)
                 }
                 iv_wish.isVisible = photoId != 0
                 iv_favorite.isVisible = isFavourite
                 val login = author.takeIf { it.login.isNotBlank() }?.login
                 tv_author.text = containerView.context.getString(R.string.wishtabs_fragment_tv_author, login)
+                contactNames?.let {
+                    iv_contact.isVisible = contactNames.contains(login)
+                }
                 tv_author.isVisible = login != null
             }
             containerView.setOnClickListener {

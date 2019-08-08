@@ -16,10 +16,22 @@ import kotlinx.android.synthetic.main.fragment_add_wish.*
 import kotlinx.android.synthetic.main.fragment_wishtabs.toolbar
 import ru.ktsstudio.wishlist.R
 import ru.ktsstudio.wishlist.data.models.body.AddBody
-import ru.ktsstudio.wishlist.data.stores.RetrofitStore
+import ru.ktsstudio.wishlist.data.network.WishApiService
+import ru.ktsstudio.wishlist.di.DI
 import ru.ktsstudio.wishlist.ui.BaseFragment
+import toothpick.Toothpick
+import javax.inject.Inject
 
 class WishAddFragment : BaseFragment() {
+
+    @Inject
+    lateinit var wishApiService: WishApiService
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val scope = Toothpick.openScopes(DI.APP, DI.ACTIVITY)
+        Toothpick.inject(this, scope)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_add_wish, container, false)
@@ -54,7 +66,7 @@ class WishAddFragment : BaseFragment() {
     }
 
     private fun addWish(title: String, description: String) {
-        RetrofitStore.service.addWish(AddBody(title, description))
+        wishApiService.addWish(AddBody(title, description))
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe { showLoading(true) }
                 .observeOn(AndroidSchedulers.mainThread())

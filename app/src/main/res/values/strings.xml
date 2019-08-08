@@ -23,6 +23,7 @@
     <string name="wishtabs_fragment_tv_header_network">Server WishList</string>
     <string name="wishtabs_fragment_tv_empty_list">List is empty</string>
     <string name="wishtabs_menu_logout_item">Logout</string>
+    <string name="permission_contacts_rationale">Grant read access to the contacts to display the wishes of users from the list of contacts.</string>
 
     <!-- WishAdd fragment -->
     <string name="wishadd_fragment_toolbar_title">Add Wish</string>

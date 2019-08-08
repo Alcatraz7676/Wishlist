@@ -1,5 +1,6 @@
 package ru.ktsstudio.wishlist.ui.main.wishtabs
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,18 +15,36 @@ import io.reactivex.rxkotlin.addTo
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_rv.*
 import ru.ktsstudio.wishlist.R
+import ru.ktsstudio.wishlist.data.db.WishDao
 import ru.ktsstudio.wishlist.data.models.WishAdapterModel.Header
 import ru.ktsstudio.wishlist.data.models.WishAdapterModel.Wish
+import ru.ktsstudio.wishlist.data.network.WishApiService
+import ru.ktsstudio.wishlist.di.DI
 import ru.ktsstudio.wishlist.ui.BaseFragment
 import ru.ktsstudio.wishlist.ui.main.wishtabs.adapters.WishAdapter
+import toothpick.Toothpick
+import javax.inject.Inject
 
 abstract class WishFragment : BaseFragment() {
+
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
+    @Inject
+    lateinit var wishApiService: WishApiService
+    @Inject
+    lateinit var wishDao: WishDao
 
     private val wishTabsNavigator: WishTabsNavigator
         get() = parentFragment as WishTabsNavigator
 
     private val wishAdapter: WishAdapter by lazy {
-        WishAdapter(getHeader()) { wishTabsNavigator.navigateToWishDetail(it) }
+        WishAdapter(getHeader(), getContactNames()) { wishTabsNavigator.navigateToWishDetail(it) }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val scope = Toothpick.openScopes(DI.APP, DI.ACTIVITY)
+        Toothpick.inject(this, scope)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -37,12 +56,12 @@ abstract class WishFragment : BaseFragment() {
         initList()
         initSwipeRefreshLayout()
         getWishes()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
-                    tv_empty_list.isVisible = it.isEmpty()
-                    wishAdapter.items = it.toMutableList()
-                }.addTo(compositeDisposable)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                tv_empty_list.isVisible = it.isEmpty()
+                wishAdapter.items = it.toMutableList()
+            }.addTo(compositeDisposable)
     }
 
     override fun onDestroyView() {
@@ -63,14 +82,15 @@ abstract class WishFragment : BaseFragment() {
         with(swipeContainer) {
             setColorSchemeResources(R.color.colorAccent)
             refreshes()
-                    .doAfterNext { swipeContainer.isRefreshing = false }
-                    .subscribe {
-                        wishAdapter.items = wishAdapter.items.shuffled().toMutableList()
-                    }.addTo(compositeDisposable)
+                .doAfterNext { swipeContainer.isRefreshing = false }
+                .subscribe {
+                    wishAdapter.items = wishAdapter.items.shuffled().toMutableList()
+                }.addTo(compositeDisposable)
         }
     }
 
     abstract fun getWishes(): Observable<List<Wish>>
     abstract fun getHeader(): Header
+    abstract fun getContactNames(): List<String>?
 
 }

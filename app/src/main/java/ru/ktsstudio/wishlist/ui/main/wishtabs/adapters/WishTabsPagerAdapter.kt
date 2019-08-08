@@ -8,8 +8,11 @@ import ru.ktsstudio.wishlist.ui.main.wishtabs.FavoriteFragment
 import ru.ktsstudio.wishlist.ui.main.wishtabs.MyFragment
 import ru.ktsstudio.wishlist.ui.main.wishtabs.PopularFragment
 
-class WishTabsPagerAdapter(fragmentManager: FragmentManager, getStr: (Int) -> String) :
-    FragmentPagerAdapter(fragmentManager) {
+class WishTabsPagerAdapter(
+    fragmentManager: FragmentManager,
+    private val contactNames: List<String>?,
+    getStr: (Int) -> String
+) : FragmentPagerAdapter(fragmentManager) {
 
     private val tabs = listOf(
         getStr(R.string.wishtabs_fragment_tab_favorite),
@@ -18,18 +21,26 @@ class WishTabsPagerAdapter(fragmentManager: FragmentManager, getStr: (Int) -> St
     )
 
     override fun getItem(position: Int): Fragment {
-        return when (position) {
-            0 -> FavoriteFragment()
-            1 -> PopularFragment()
-            2 -> MyFragment()
-            else -> error("Unexpected")
+        return if (contactNames != null) {
+            when (position) {
+                0 -> FavoriteFragment.newInstance(contactNames)
+                1 -> PopularFragment.newInstance(contactNames)
+                2 -> MyFragment()
+                else -> error("Unexpected")
+            }
+        } else {
+            when (position) {
+                0 -> FavoriteFragment()
+                1 -> PopularFragment()
+                2 -> MyFragment()
+                else -> error("Unexpected")
+            }
         }
     }
 
     override fun getPageTitle(position: Int): CharSequence? = tabs[position]
 
     override fun getCount() = tabs.size
-
 
 
 }

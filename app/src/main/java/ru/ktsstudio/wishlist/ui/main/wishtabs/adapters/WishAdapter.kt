@@ -11,10 +11,14 @@ class WishAdapter : AsyncListDifferDelegationAdapter<WishAdapterModel> {
 
     private val header: Header
 
-    constructor(header: Header, clickListener: (Wish) -> Unit) : super(WishDiffCallback()) {
+    constructor(
+        header: Header,
+        contactNames: List<String>?,
+        clickListener: (Wish) -> Unit
+    ) : super(WishDiffCallback()) {
         sequenceOf(
-                HeaderAdapterDelegate(),
-                WishAdapterDelegate(clickListener)
+            HeaderAdapterDelegate(),
+            WishAdapterDelegate(clickListener, contactNames)
         ).forEach { delegatesManager.addDelegate(it) }
 
         this.header = header

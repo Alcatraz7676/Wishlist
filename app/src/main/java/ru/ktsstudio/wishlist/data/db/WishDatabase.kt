@@ -8,10 +8,9 @@ import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import ru.ktsstudio.wishlist.WishApp
+import ru.ktsstudio.wishlist.ui.app.WishApp
 import ru.ktsstudio.wishlist.data.models.WishAdapterModel.Wish
 import ru.ktsstudio.wishlist.data.stores.LocalWishesStore
-import java.util.concurrent.Executors
 
 @Database(entities = [Wish::class], version = 1)
 abstract class WishDatabase : RoomDatabase() {
@@ -23,16 +22,16 @@ abstract class WishDatabase : RoomDatabase() {
         private var INSTANCE: WishDatabase? = null
         private val lock = Any()
 
-        fun getInstance(): WishDatabase {
+        fun getInstance(context: Context): WishDatabase {
             synchronized(lock) {
                 if (INSTANCE == null) {
-                    INSTANCE = buildDatabase()
+                    INSTANCE = buildDatabase(context)
                 }
                 return INSTANCE!!
             }
         }
 
-        private fun buildDatabase(context: Context = WishApp.applicationContext()): WishDatabase {
+        private fun buildDatabase(context: Context): WishDatabase {
             return Room.databaseBuilder(
                 context,
                 WishDatabase::class.java,
@@ -40,7 +39,7 @@ abstract class WishDatabase : RoomDatabase() {
                 .addCallback(object : Callback() {
                     override fun onCreate(db: SupportSQLiteDatabase) {
                         super.onCreate(db)
-                        getInstance()
+                        getInstance(context)
                             .wishDao()
                             .insertAll(LocalWishesStore.getAllWishes())
                             .subscribeOn(Schedulers.io())
@@ -52,6 +51,5 @@ abstract class WishDatabase : RoomDatabase() {
                 })
                 .build()
         }
-
     }
 }

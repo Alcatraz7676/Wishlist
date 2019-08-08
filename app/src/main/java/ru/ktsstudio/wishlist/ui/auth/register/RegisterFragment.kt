@@ -1,5 +1,6 @@
 package ru.ktsstudio.wishlist.ui.auth.register
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,19 +15,32 @@ import io.reactivex.rxkotlin.Observables
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.schedulers.Schedulers
 import ru.ktsstudio.wishlist.R
-import ru.ktsstudio.wishlist.WishApp
+import ru.ktsstudio.wishlist.ui.app.WishApp
 import ru.ktsstudio.wishlist.data.models.body.RegisterBody
 import ru.ktsstudio.wishlist.data.network.HttpStatusInterceptor
-import ru.ktsstudio.wishlist.data.stores.RetrofitStore
+import ru.ktsstudio.wishlist.data.network.WishApiService
+import ru.ktsstudio.wishlist.di.DI
 import ru.ktsstudio.wishlist.ui.BaseFragment
 import ru.ktsstudio.wishlist.ui.auth.AuthNavigator
 import ru.ktsstudio.wishlist.utils.KEY_TOKEN
 import ru.ktsstudio.wishlist.utils.KEY_USER_LOGIN
+import toothpick.Toothpick
+import javax.inject.Inject
 
 class RegisterFragment : BaseFragment() {
 
+    @Inject
+    lateinit var wishApiService: WishApiService
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
+
     private val authNavigator: AuthNavigator
         get() = parentFragment as AuthNavigator
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Toothpick.inject(this, Toothpick.openScopes(DI.APP, DI.ACTIVITY))
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_register, container, false)
@@ -53,7 +67,7 @@ class RegisterFragment : BaseFragment() {
     }
 
     private fun register() {
-        RetrofitStore.service.register(
+        wishApiService.register(
                 RegisterBody(
                         firstName = input_name.text.toString(),
                         lastName = input_surname.text.toString(),
@@ -64,9 +78,9 @@ class RegisterFragment : BaseFragment() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { showLoading(true) }
-                .doOnTerminate { showLoading(false) }
+                .doOnError { showLoading(false) }
                 .subscribe({ response ->
-                    WishApp.sharedPreferences.edit().apply {
+                    sharedPreferences.edit().apply {
                         putString(KEY_TOKEN, response.data?.token)
                         putString(KEY_USER_LOGIN, response.data?.email)
                     }.apply()
