@@ -22,6 +22,10 @@ class MainActivity : MvpAppCompatActivity(), ActivityNavigator, MainView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+    }
+
+    override fun onStart() {
+        super.onStart()
         presenter.onCreate()
         presenter.checkLoginState()
     }

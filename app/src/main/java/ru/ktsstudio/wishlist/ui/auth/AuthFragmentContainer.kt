@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import com.arellomobile.mvp.MvpAppCompatFragment
 import ru.ktsstudio.wishlist.R
 import ru.ktsstudio.wishlist.ui.app.ActivityNavigator
 import ru.ktsstudio.wishlist.ui.OnBackPressed
@@ -13,7 +13,7 @@ import ru.ktsstudio.wishlist.ui.auth.register.RegisterFragment
 import ru.ktsstudio.wishlist.utils.navigateAdd
 import ru.ktsstudio.wishlist.utils.navigateReplace
 
-class AuthFragmentContainer : Fragment(), AuthNavigator, OnBackPressed {
+class AuthFragmentContainer : MvpAppCompatFragment(), AuthNavigator, OnBackPressed {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_container, container, false)

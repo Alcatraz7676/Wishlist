@@ -3,6 +3,7 @@ package ru.ktsstudio.wishlist.ui.main
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import com.arellomobile.mvp.MvpAppCompatFragment
 import ru.ktsstudio.wishlist.R
 import ru.ktsstudio.wishlist.data.models.WishAdapterModel
 import ru.ktsstudio.wishlist.ui.main.wishtabs.WishTabsFragment
@@ -13,7 +14,7 @@ import ru.ktsstudio.wishlist.ui.main.wishtabs.detail.WishDetailFragment
 import ru.ktsstudio.wishlist.utils.navigateAdd
 import ru.ktsstudio.wishlist.utils.navigateReplace
 
-class MainFragmentContainer : Fragment(), MainNavigator, OnBackPressed {
+class MainFragmentContainer : MvpAppCompatFragment(), MainNavigator, OnBackPressed {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_container, container, false)

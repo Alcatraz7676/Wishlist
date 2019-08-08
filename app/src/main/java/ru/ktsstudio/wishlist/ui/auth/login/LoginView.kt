@@ -1,6 +1,8 @@
 package ru.ktsstudio.wishlist.ui.auth.login
 
 import com.arellomobile.mvp.MvpView
+import com.arellomobile.mvp.viewstate.strategy.SkipStrategy
+import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 
 interface LoginView : MvpView {
 
@@ -10,8 +12,10 @@ interface LoginView : MvpView {
 
     fun requestPermissions()
 
+    @StateStrategyType(SkipStrategy::class)
     fun navigateToMain()
 
+    @StateStrategyType(SkipStrategy::class)
     fun navigateToRegister()
 
 }

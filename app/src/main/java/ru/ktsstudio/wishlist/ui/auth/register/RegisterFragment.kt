@@ -14,10 +14,8 @@ import io.reactivex.rxkotlin.Observables
 import io.reactivex.rxkotlin.addTo
 import ru.ktsstudio.wishlist.R
 import ru.ktsstudio.wishlist.data.models.body.RegisterBody
-import ru.ktsstudio.wishlist.di.DI
 import ru.ktsstudio.wishlist.ui.BaseFragment
 import ru.ktsstudio.wishlist.ui.auth.AuthNavigator
-import toothpick.Toothpick
 
 class RegisterFragment : BaseFragment(), RegisterView {
 
@@ -27,8 +25,8 @@ class RegisterFragment : BaseFragment(), RegisterView {
     private val authNavigator: AuthNavigator
         get() = parentFragment as AuthNavigator
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onStart() {
+        super.onStart()
         presenter.onCreate()
     }
 

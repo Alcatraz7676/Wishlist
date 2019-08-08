@@ -9,19 +9,12 @@ import androidx.core.view.isVisible
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.jakewharton.rxbinding3.view.clicks
 import com.jakewharton.rxbinding3.widget.textChanges
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.Observables
 import io.reactivex.rxkotlin.addTo
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_add_wish.*
 import kotlinx.android.synthetic.main.fragment_wishtabs.toolbar
 import ru.ktsstudio.wishlist.R
-import ru.ktsstudio.wishlist.data.models.body.AddBody
-import ru.ktsstudio.wishlist.data.network.WishApiService
-import ru.ktsstudio.wishlist.di.DI
 import ru.ktsstudio.wishlist.ui.BaseFragment
-import toothpick.Toothpick
-import javax.inject.Inject
 
 class WishAddFragment : BaseFragment(), WishAddView {
 
