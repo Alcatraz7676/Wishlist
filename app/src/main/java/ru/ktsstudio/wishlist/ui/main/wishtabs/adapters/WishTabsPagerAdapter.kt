@@ -4,9 +4,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import ru.ktsstudio.wishlist.R
-import ru.ktsstudio.wishlist.ui.main.wishtabs.FavoriteFragment
-import ru.ktsstudio.wishlist.ui.main.wishtabs.MyFragment
-import ru.ktsstudio.wishlist.ui.main.wishtabs.PopularFragment
+import ru.ktsstudio.wishlist.ui.main.wishtabs.tabs.FavoriteFragment
+import ru.ktsstudio.wishlist.ui.main.wishtabs.tabs.MyFragment
+import ru.ktsstudio.wishlist.ui.main.wishtabs.tabs.PopularFragment
 
 class WishTabsPagerAdapter(
     fragmentManager: FragmentManager,

@@ -7,10 +7,13 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.ktsstudio.wishlist.R
+import ru.ktsstudio.wishlist.di.DI
+import ru.ktsstudio.wishlist.di.modules.ActivityModule
 import ru.ktsstudio.wishlist.ui.auth.AuthFragmentContainer
 import ru.ktsstudio.wishlist.ui.main.MainFragmentContainer
 import ru.ktsstudio.wishlist.ui.OnBackPressed
 import ru.ktsstudio.wishlist.utils.navigateReplace
+import toothpick.Toothpick
 
 class MainActivity : MvpAppCompatActivity(), ActivityNavigator, MainView {
 
@@ -22,11 +25,12 @@ class MainActivity : MvpAppCompatActivity(), ActivityNavigator, MainView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        initDi()
     }
 
     override fun onStart() {
         super.onStart()
-        presenter.onCreate()
+        presenter.onStart()
         presenter.checkLoginState()
     }
 
@@ -58,6 +62,13 @@ class MainActivity : MvpAppCompatActivity(), ActivityNavigator, MainView {
         Snackbar
             .make(view, R.string.main_activity_snackbar_network_missing, Snackbar.LENGTH_INDEFINITE)
             .setAction(R.string.main_activity_snackbar_network_missing_action) {
-                snackbar?.dismiss()
+                presenter.showSnackBar(false)
             }
+    private fun initDi() {
+        val scope = Toothpick.openScopes(DI.APP, DI.ACTIVITY)
+        scope.installModules(
+            ActivityModule(this)
+        )
+        Toothpick.inject(this, scope)
+    }
 }

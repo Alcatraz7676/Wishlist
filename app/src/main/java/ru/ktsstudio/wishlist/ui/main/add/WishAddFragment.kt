@@ -1,4 +1,4 @@
-package ru.ktsstudio.wishlist.ui.main.wishtabs.add
+package ru.ktsstudio.wishlist.ui.main.add
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -23,7 +23,7 @@ class WishAddFragment : BaseFragment(), WishAddView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        presenter.onCreate()
+        presenter.onStart()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

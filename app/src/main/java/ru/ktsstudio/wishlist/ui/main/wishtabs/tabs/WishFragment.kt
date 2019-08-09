@@ -1,4 +1,4 @@
-package ru.ktsstudio.wishlist.ui.main.wishtabs
+package ru.ktsstudio.wishlist.ui.main.wishtabs.tabs
 
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -22,6 +22,7 @@ import ru.ktsstudio.wishlist.data.models.WishAdapterModel.Wish
 import ru.ktsstudio.wishlist.data.network.WishApiService
 import ru.ktsstudio.wishlist.di.DI
 import ru.ktsstudio.wishlist.ui.BaseFragment
+import ru.ktsstudio.wishlist.ui.main.wishtabs.WishTabsNavigator
 import ru.ktsstudio.wishlist.ui.main.wishtabs.adapters.WishAdapter
 import toothpick.Toothpick
 import javax.inject.Inject

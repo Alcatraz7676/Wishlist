@@ -1,11 +1,9 @@
-package ru.ktsstudio.wishlist.ui.main.wishtabs
+package ru.ktsstudio.wishlist.ui.main.wishtabs.tabs
 
 import android.os.Bundle
 import android.view.View
 import io.reactivex.Observable
 import ru.ktsstudio.wishlist.R
-import ru.ktsstudio.wishlist.ui.app.WishApp
-import ru.ktsstudio.wishlist.data.db.WishDatabase
 import ru.ktsstudio.wishlist.data.models.WishAdapterModel.Wish
 import ru.ktsstudio.wishlist.data.models.WishAdapterModel.Header
 import ru.ktsstudio.wishlist.utils.KEY_USER_LOGIN

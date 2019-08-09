@@ -9,8 +9,8 @@ import ru.ktsstudio.wishlist.data.models.WishAdapterModel
 import ru.ktsstudio.wishlist.ui.main.wishtabs.WishTabsFragment
 import ru.ktsstudio.wishlist.ui.OnBackPressed
 import ru.ktsstudio.wishlist.ui.app.ActivityNavigator
-import ru.ktsstudio.wishlist.ui.main.wishtabs.add.WishAddFragment
-import ru.ktsstudio.wishlist.ui.main.wishtabs.detail.WishDetailFragment
+import ru.ktsstudio.wishlist.ui.main.add.WishAddFragment
+import ru.ktsstudio.wishlist.ui.main.detail.WishDetailFragment
 import ru.ktsstudio.wishlist.utils.navigateAdd
 import ru.ktsstudio.wishlist.utils.navigateReplace
 

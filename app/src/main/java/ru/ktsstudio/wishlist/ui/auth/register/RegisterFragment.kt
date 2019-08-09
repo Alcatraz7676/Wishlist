@@ -27,7 +27,7 @@ class RegisterFragment : BaseFragment(), RegisterView {
 
     override fun onStart() {
         super.onStart()
-        presenter.onCreate()
+        presenter.onStart()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

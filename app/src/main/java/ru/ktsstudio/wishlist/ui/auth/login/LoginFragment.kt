@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.jakewharton.rxbinding3.view.clicks
@@ -27,9 +26,11 @@ class LoginFragment : BaseFragment(), LoginView {
     private val authNavigator: AuthNavigator
         get() = parentFragment as AuthNavigator
 
+    private var rationaleDialog: AlertDialog? = null
+
     override fun onStart() {
         super.onStart()
-        presenter.onCreate()
+        presenter.onStart()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -43,33 +44,29 @@ class LoginFragment : BaseFragment(), LoginView {
             presenter.login(input_email.text.toString(), input_password.text.toString())
         }.addTo(compositeDisposable)
         btn_register.clicks().subscribe {
-            navigateToRegister()
+            presenter.navigateToRegister()
         }.addTo(compositeDisposable)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         if (requestCode == MY_PERMISSIONS_REQUEST_READ_CONTACTS)
-            navigateToMain()
+            presenter.navigateToMain()
         else
             super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
-    override fun requestPermissions() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(
-                requireActivity(),
-                Manifest.permission.READ_CONTACTS
-            )
-        ) {
-            AlertDialog.Builder(requireContext())
+    override fun showPermissionRationale(show: Boolean) {
+        if (show) {
+            rationaleDialog = AlertDialog.Builder(requireContext())
                 .setMessage(R.string.permission_contacts_rationale)
-                .setPositiveButton(android.R.string.ok) { dialog, _ ->
-                    requestContactPermission()
-                    dialog.dismiss()
+                .setPositiveButton(android.R.string.ok) { _, _ ->
+                    presenter.requestContactPermission()
+                    presenter.showRationaleDialog(false)
                 }
-                .setNegativeButton(android.R.string.no) { dialog, _ -> dialog.dismiss() }
+                .setNegativeButton(android.R.string.no) { _, _ -> presenter.showRationaleDialog(false) }
                 .show()
         } else {
-            requestContactPermission()
+            rationaleDialog?.dismiss()
         }
     }
 
@@ -90,6 +87,13 @@ class LoginFragment : BaseFragment(), LoginView {
         authNavigator.navigateToRegister()
     }
 
+    override fun requestContactPermission() {
+        requestPermissions(
+            arrayOf(Manifest.permission.READ_CONTACTS),
+            MY_PERMISSIONS_REQUEST_READ_CONTACTS
+        )
+    }
+
     private fun setupEditText() {
         val emailObservable = input_email.textChanges()
         val passwordObservable = input_password.textChanges()
@@ -97,13 +101,6 @@ class LoginFragment : BaseFragment(), LoginView {
         Observables.combineLatest(emailObservable, passwordObservable) { newEmail, newPassword ->
             btn_login.isEnabled = newEmail.isNotBlank() && newPassword.isNotBlank()
         }.subscribe()
-    }
-
-    private fun requestContactPermission() {
-        requestPermissions(
-            arrayOf(Manifest.permission.READ_CONTACTS),
-            MY_PERMISSIONS_REQUEST_READ_CONTACTS
-        )
     }
 
     companion object {

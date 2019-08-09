@@ -1,4 +1,4 @@
-package ru.ktsstudio.wishlist.ui.main.wishtabs.detail
+package ru.ktsstudio.wishlist.ui.main.detail
 
 import android.os.Bundle
 import android.view.LayoutInflater

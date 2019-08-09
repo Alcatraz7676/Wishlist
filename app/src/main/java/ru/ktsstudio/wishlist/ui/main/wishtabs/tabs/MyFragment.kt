@@ -1,4 +1,4 @@
-package ru.ktsstudio.wishlist.ui.main.wishtabs
+package ru.ktsstudio.wishlist.ui.main.wishtabs.tabs
 
 import android.util.Log
 import io.reactivex.Observable
@@ -6,8 +6,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.schedulers.Schedulers
 import ru.ktsstudio.wishlist.R
-import ru.ktsstudio.wishlist.ui.app.WishApp
-import ru.ktsstudio.wishlist.data.db.WishDatabase
 import ru.ktsstudio.wishlist.data.models.User
 import ru.ktsstudio.wishlist.data.models.WishAdapterModel.Wish
 import ru.ktsstudio.wishlist.data.models.WishAdapterModel.Header

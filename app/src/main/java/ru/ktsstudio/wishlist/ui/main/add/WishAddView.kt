@@ -1,4 +1,4 @@
-package ru.ktsstudio.wishlist.ui.main.wishtabs.add
+package ru.ktsstudio.wishlist.ui.main.add
 
 import com.arellomobile.mvp.MvpView
 

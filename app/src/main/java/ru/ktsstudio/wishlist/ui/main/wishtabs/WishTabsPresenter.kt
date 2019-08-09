@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.provider.ContactsContract
 import androidx.core.content.ContextCompat
 import com.arellomobile.mvp.InjectViewState
+import ru.ktsstudio.wishlist.data.models.WishAdapterModel.Wish
 import ru.ktsstudio.wishlist.ui.BasePresenter
 import ru.ktsstudio.wishlist.utils.KEY_TOKEN
 import ru.ktsstudio.wishlist.utils.KEY_USER_LOGIN
@@ -58,6 +59,10 @@ class WishTabsPresenter : BasePresenter<WishTabsView>() {
             remove(KEY_TOKEN)
         }.apply()
         viewState.navigateToLogin()
+    }
+
+    fun navigateToWishAdd() {
+        viewState.navigateToWishAdd()
     }
 
 }

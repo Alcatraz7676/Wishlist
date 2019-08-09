@@ -23,7 +23,7 @@ class WishTabsFragment : BaseFragment(), WishTabsNavigator, WishTabsView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        presenter.onCreate()
+        presenter.onStart()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -36,7 +36,7 @@ class WishTabsFragment : BaseFragment(), WishTabsNavigator, WishTabsView {
         setupViewPager()
         setupTabLayout()
         fab_add_wish.clicks().subscribe {
-            navigateToWishAdd()
+            presenter.navigateToWishAdd()
         }.addTo(compositeDisposable)
     }
 

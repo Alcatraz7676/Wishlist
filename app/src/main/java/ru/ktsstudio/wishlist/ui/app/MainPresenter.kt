@@ -19,8 +19,8 @@ class MainPresenter : BasePresenter<MainView>() {
     @Inject
     lateinit var application: Application
 
-    override fun onCreate() {
-        super.onCreate()
+    override fun onStart() {
+        super.onStart()
         registerBroadcast()
     }
 
@@ -33,14 +33,18 @@ class MainPresenter : BasePresenter<MainView>() {
         }
     }
 
+    fun showSnackBar(show: Boolean) {
+        viewState.showSnackBar(show)
+    }
+
     private fun registerBroadcast() {
         val filter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
         RxBroadcastReceivers.fromIntentFilter(application.applicationContext, filter)
             .subscribe { intent ->
                 if (intent?.extras?.getBoolean(ConnectivityManager.EXTRA_NO_CONNECTIVITY) == true) {
-                    viewState.showSnackBar(true)
+                    showSnackBar(true)
                 } else {
-                    viewState.showSnackBar(false)
+                    showSnackBar(false)
                 }
             }.addTo(compositeDisposable)
     }

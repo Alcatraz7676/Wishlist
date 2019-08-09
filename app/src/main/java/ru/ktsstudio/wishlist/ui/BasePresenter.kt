@@ -17,12 +17,12 @@ abstract class BasePresenter<T : MvpView> : MvpPresenter<T>() {
         compositeDisposable.clear()
     }
 
-    open fun onCreate() {
+    open fun onStart() {
         initDi()
     }
 
     private fun initDi() {
-        val scope = Toothpick.openScope(DI.APP)
+        val scope = Toothpick.openScopes(DI.APP, DI.ACTIVITY)
         Toothpick.inject(this, scope)
     }
 

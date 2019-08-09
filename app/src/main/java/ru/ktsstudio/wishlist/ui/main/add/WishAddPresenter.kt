@@ -1,4 +1,4 @@
-package ru.ktsstudio.wishlist.ui.main.wishtabs.add
+package ru.ktsstudio.wishlist.ui.main.add
 
 import android.app.Application
 import com.arellomobile.mvp.InjectViewState
