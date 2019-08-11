@@ -35,7 +35,7 @@ class AuthFragmentContainer : MvpAppCompatFragment(), AuthNavigator, OnBackPress
     }
 
     override fun navigateToMain() {
-        requireActivity().let { it as? ActivityNavigator }?.navigateToMainScreen()
+        requireActivity().let { it as? ActivityNavigator }?.navigateToMainScreenAnimation()
     }
 
     override fun onBackPressed() = childFragmentManager.popBackStackImmediate()

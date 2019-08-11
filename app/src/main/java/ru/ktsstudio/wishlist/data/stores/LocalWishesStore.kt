@@ -117,6 +117,12 @@ object LocalWishesStore {
                 "Apple AirPods 2",
                 User(UNKNOWN_USER),
                 photoId = 17
+            ), Wish(
+                18,
+                "Джинсовка Levis",
+                "Levi's® Made & Crafted® Native Trucker Jacket",
+                User("Аня"),
+                photoId = 17
             )
         )
     }

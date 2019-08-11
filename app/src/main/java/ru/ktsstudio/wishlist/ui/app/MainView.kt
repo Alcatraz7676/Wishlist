@@ -12,6 +12,12 @@ interface MainView : MvpView {
     fun navigateToLoginScreen()
 
     @StateStrategyType(OneExecutionStateStrategy::class)
+    fun navigateToLoginScreenAnimation()
+
+    @StateStrategyType(OneExecutionStateStrategy::class)
     fun navigateToMainScreen()
+
+    @StateStrategyType(OneExecutionStateStrategy::class)
+    fun navigateToMainScreenAnimation()
 
 }

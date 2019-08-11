@@ -2,7 +2,6 @@ package ru.ktsstudio.wishlist.ui.main
 
 import android.os.Bundle
 import android.view.*
-import androidx.fragment.app.Fragment
 import com.arellomobile.mvp.MvpAppCompatFragment
 import ru.ktsstudio.wishlist.R
 import ru.ktsstudio.wishlist.data.models.WishAdapterModel
@@ -32,7 +31,7 @@ class MainFragmentContainer : MvpAppCompatFragment(), MainNavigator, OnBackPress
     }
 
     override fun navigateToLogin() {
-        requireActivity().let { it as? ActivityNavigator }?.navigateToLoginScreen()
+        requireActivity().let { it as? ActivityNavigator }?.navigateToLoginScreenAnimation()
     }
 
     override fun navigateToWishAdd() {

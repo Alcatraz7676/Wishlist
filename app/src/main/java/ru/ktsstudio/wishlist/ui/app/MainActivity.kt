@@ -13,6 +13,8 @@ import ru.ktsstudio.wishlist.ui.auth.AuthFragmentContainer
 import ru.ktsstudio.wishlist.ui.main.MainFragmentContainer
 import ru.ktsstudio.wishlist.ui.OnBackPressed
 import ru.ktsstudio.wishlist.utils.navigateReplace
+import ru.ktsstudio.wishlist.utils.navigateReplaceSlideHorizontalLeftToRight
+import ru.ktsstudio.wishlist.utils.navigateReplaceSlideHorizontalRightToLeft
 import toothpick.Toothpick
 
 class MainActivity : MvpAppCompatActivity(), ActivityNavigator, MainView {
@@ -43,12 +45,20 @@ class MainActivity : MvpAppCompatActivity(), ActivityNavigator, MainView {
         }
     }
 
+    override fun navigateToLoginScreen() {
+        supportFragmentManager.navigateReplace(R.id.activity_content, AuthFragmentContainer())
+    }
+
     override fun navigateToMainScreen() {
         supportFragmentManager.navigateReplace(R.id.activity_content, MainFragmentContainer())
     }
 
-    override fun navigateToLoginScreen() {
-        supportFragmentManager.navigateReplace(R.id.activity_content, AuthFragmentContainer())
+    override fun navigateToMainScreenAnimation() {
+        supportFragmentManager.navigateReplaceSlideHorizontalLeftToRight(R.id.activity_content, MainFragmentContainer())
+    }
+
+    override fun navigateToLoginScreenAnimation() {
+        supportFragmentManager.navigateReplaceSlideHorizontalRightToLeft(R.id.activity_content, AuthFragmentContainer())
     }
 
     override fun onBackPressed() {
