@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-	<!-- Activity -->
+	<!-- Main Activity -->
 	<string name="main_activity_snackbar_network_missing">Сеть отсутствует</string>
 	<string name="main_activity_snackbar_network_missing_action">Ок</string>
 
 	<!-- Login fragment -->
-	<string name="login_fragment_et_hint_name">Имя</string>
-	<string name="login_fragment_et_hint_surname">Фамилия</string>
-	<string name="login_fragment_et_hint_password">Пароль</string>
-	<string name="login_fragment_btn_text_login">Логин</string>
-	<string name="login_fragment_btn_text_register">Регистрация</string>
+	<string name="auth_fragment_et_hint_name">Имя</string>
+	<string name="auth_fragment_et_hint_surname">Фамилия</string>
+	<string name="auth_fragment_et_hint_password">Пароль</string>
+	<string name="auth_fragment_btn_text_login">Логин</string>
+	<string name="auth_fragment_btn_text_register">Регистрация</string>
+	<string name="auth_fragment_toast_wrong_login_or_password">Неверный логин или пароль</string>
+	<string name="auth_fragment_toast_auth_error">Не удалось авторизоваться</string>
+	<string name="auth_fragment_toast_same_email">Пользователь с такой почтой уже существует</string>
+	<string name="auth_fragment_toast_register_error">Не удалось зарегистрироваться</string>
 
 	<!-- WishTabs fragment -->
 	<string name="wishtabs_fragment_tab_favorite">Избранные</string>

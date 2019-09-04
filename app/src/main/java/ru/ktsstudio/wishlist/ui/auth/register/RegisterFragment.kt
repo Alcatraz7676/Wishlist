@@ -7,30 +7,55 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
 import com.arellomobile.mvp.presenter.InjectPresenter
+import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.jakewharton.rxbinding3.view.clicks
 import com.jakewharton.rxbinding3.widget.textChanges
-import kotlinx.android.synthetic.main.fragment_register.*
-import io.reactivex.rxkotlin.Observables
 import io.reactivex.rxkotlin.addTo
+import kotlinx.android.synthetic.main.fragment_register.*
 import ru.ktsstudio.wishlist.R
-import ru.ktsstudio.wishlist.data.models.body.RegisterBody
-import ru.ktsstudio.wishlist.ui.BaseFragment
-import ru.ktsstudio.wishlist.ui.auth.AuthNavigator
+import ru.ktsstudio.wishlist.data.network.repository.WishApiRepository
+import ru.ktsstudio.wishlist.data.prefs.SharedPreferenceRepository
+import ru.ktsstudio.wishlist.di.DI
+import ru.ktsstudio.wishlist.ui.common.BackButtonListener
+import ru.ktsstudio.wishlist.ui.common.BaseFragment
+import ru.ktsstudio.wishlist.ui.common.GlobalRouterProvider
+import ru.ktsstudio.wishlist.ui.common.LocalRouterProvider
+import ru.terrakok.cicerone.Router
+import toothpick.Toothpick
+import javax.inject.Inject
 
-class RegisterFragment : BaseFragment(), RegisterView {
+class RegisterFragment : BaseFragment(), RegisterView, BackButtonListener {
+
+    init {
+        val scope = Toothpick.openScopes(DI.APP, DI.ACTIVITY, DI.AUTH)
+        Toothpick.inject(this, scope)
+    }
+
+    @Inject
+    lateinit var wishApiRepository: WishApiRepository
+    @Inject
+    lateinit var sharedPreferenceRepository: SharedPreferenceRepository
 
     @InjectPresenter
     lateinit var presenter: RegisterPresenter
 
-    private val authNavigator: AuthNavigator
-        get() = parentFragment as AuthNavigator
+    @ProvidePresenter
+    fun providePresenter() =
+        RegisterPresenter(wishApiRepository, sharedPreferenceRepository, resources, localRouter,
+            globalRouter
+        )
 
-    override fun onStart() {
-        super.onStart()
-        presenter.onStart()
-    }
+    private val localRouter: Router
+        get() = (parentFragment as LocalRouterProvider).getRouter()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    private val globalRouter: Router
+        get() = (parentFragment as GlobalRouterProvider).getGlobalRouter()
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_register, container, false)
     }
 
@@ -38,24 +63,18 @@ class RegisterFragment : BaseFragment(), RegisterView {
         super.onViewCreated(view, savedInstanceState)
         setupEditText()
         btn_register.clicks().subscribe {
-            presenter.register(RegisterBody(
-                firstName = input_name.text.toString(),
-                lastName = input_surname.text.toString(),
-                email = input_email.text.toString(),
-                password = input_password.text.toString()))
+            presenter.register(
+                input_name.text.toString(),
+                input_surname.text.toString(),
+                input_email.text.toString(),
+                input_password.text.toString()
+            )
         }.addTo(compositeDisposable)
     }
 
-    private fun setupEditText() {
-        val emailObservable = input_email.textChanges()
-        val passwordObservable = input_password.textChanges()
-        val nameObservable = input_name.textChanges()
-        val surnameObservable = input_surname.textChanges()
-
-        Observables.combineLatest(emailObservable, passwordObservable, nameObservable, surnameObservable) { newEmail, newPassword, newName, newSurname ->
-            btn_register.isEnabled = newEmail.isNotBlank() && newPassword.isNotBlank() &&
-                    newName.isNotBlank() && newSurname.isNotBlank()
-        }.subscribe()
+    override fun onDestroyView() {
+        super.onDestroyView()
+        presenter.onDestroy()
     }
 
     override fun showLoading(toLoad: Boolean) {
@@ -67,8 +86,27 @@ class RegisterFragment : BaseFragment(), RegisterView {
         Toast.makeText(activity, text, Toast.LENGTH_LONG).show()
     }
 
-    override fun navigateToMain() {
-        authNavigator.navigateToMain()
+    override fun enableRegister(enable: Boolean) {
+        btn_register.isEnabled = enable
+    }
+
+    override fun onBackPressed(): Boolean {
+        presenter.onBackPressed()
+        return true
+    }
+
+    private fun setupEditText() {
+        val emailObservable = input_email.textChanges()
+        val passwordObservable = input_password.textChanges()
+        val nameObservable = input_name.textChanges()
+        val surnameObservable = input_surname.textChanges()
+
+        presenter.registerBtnActivation(
+            emailObservable,
+            passwordObservable,
+            nameObservable,
+            surnameObservable
+        )
     }
 
 }

@@ -7,26 +7,46 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
 import com.arellomobile.mvp.presenter.InjectPresenter
+import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.jakewharton.rxbinding3.view.clicks
 import com.jakewharton.rxbinding3.widget.textChanges
-import io.reactivex.rxkotlin.Observables
 import io.reactivex.rxkotlin.addTo
 import kotlinx.android.synthetic.main.fragment_add_wish.*
 import kotlinx.android.synthetic.main.fragment_wishtabs.toolbar
 import ru.ktsstudio.wishlist.R
-import ru.ktsstudio.wishlist.ui.BaseFragment
+import ru.ktsstudio.wishlist.data.network.repository.WishApiRepository
+import ru.ktsstudio.wishlist.di.DI
+import ru.ktsstudio.wishlist.ui.common.BackButtonListener
+import ru.ktsstudio.wishlist.ui.common.BaseFragment
+import ru.ktsstudio.wishlist.ui.common.LocalRouterProvider
+import ru.terrakok.cicerone.Router
+import toothpick.Toothpick
+import javax.inject.Inject
 
-class WishAddFragment : BaseFragment(), WishAddView {
+class WishAddFragment : BaseFragment(), WishAddView, BackButtonListener {
+
+    init {
+        val scope = Toothpick.openScopes(DI.APP, DI.ACTIVITY, DI.MAIN)
+        Toothpick.inject(this, scope)
+    }
+
+    @Inject
+    lateinit var wishApiRepository: WishApiRepository
 
     @InjectPresenter
     lateinit var presenter: WishAddPresenter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        presenter.onStart()
-    }
+    @ProvidePresenter
+    fun providePresenter() = WishAddPresenter(wishApiRepository, resources, localRouter)
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    private val localRouter: Router
+        get() = (parentFragment as LocalRouterProvider).getRouter()
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_add_wish, container, false)
     }
 
@@ -34,28 +54,18 @@ class WishAddFragment : BaseFragment(), WishAddView {
         super.onViewCreated(view, savedInstanceState)
         setupToolbar()
         setupEditText()
-        btn_add.clicks()
-            .subscribe {
-                presenter.addWish(input_title.text.toString(), input_description.text.toString())
-            }.addTo(compositeDisposable)
+        btn_add.clicks().subscribe {
+            presenter.addWish(input_title.text.toString(), input_description.text.toString())
+        }.addTo(compositeDisposable)
     }
 
-    private fun setupToolbar() {
-        with(toolbar) {
-            title = resources.getString(R.string.wishadd_fragment_toolbar_title)
-            setNavigationIcon(R.drawable.ic_arrow_back_white_24dp)
-            setNavigationOnClickListener {
-                activity?.onBackPressed()
-            }
-        }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        presenter.onDestroy()
     }
 
-    private fun setupEditText() {
-        val emailObservable = input_title.textChanges()
-        val passwordObservable = input_description.textChanges()
-        Observables.combineLatest(emailObservable, passwordObservable) { newEmail, newPassword ->
-            btn_add.isEnabled = newEmail.isNotBlank() && newPassword.isNotBlank()
-        }.subscribe()
+    override fun enableAdd(enable: Boolean) {
+        btn_add.isEnabled = enable
     }
 
     override fun showLoading(toLoad: Boolean) {
@@ -70,6 +80,27 @@ class WishAddFragment : BaseFragment(), WishAddView {
 
     override fun showToast(text: String?) {
         Toast.makeText(activity, text, Toast.LENGTH_LONG).show()
+    }
+
+    override fun onBackPressed(): Boolean {
+        presenter.onBackPressed()
+        return true
+    }
+
+    private fun setupToolbar() {
+        with(toolbar) {
+            title = resources.getString(R.string.wishadd_fragment_toolbar_title)
+            setNavigationIcon(R.drawable.ic_arrow_back_white_24dp)
+            setNavigationOnClickListener {
+                presenter.onBackPressed()
+            }
+        }
+    }
+
+    private fun setupEditText() {
+        val titleObservable = input_title.textChanges()
+        val descriptionObservable = input_description.textChanges()
+        presenter.enableBtnActivation(titleObservable, descriptionObservable)
     }
 
 }

@@ -1,13 +1,13 @@
 package ru.ktsstudio.wishlist.di.modules
 
-import android.app.Application
 import android.content.Context
 import toothpick.config.Module
+import toothpick.ktp.binding.bind
 
-class AppModule(application: Application) : Module() {
+class AppModule(applicationContext: Context) : Module() {
 
     init {
-        bind(Application::class.java).toInstance(application)
+        bind<Context>().toInstance(applicationContext)
     }
 
 }

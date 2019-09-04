@@ -8,8 +8,7 @@ import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import ru.ktsstudio.wishlist.ui.app.WishApp
-import ru.ktsstudio.wishlist.data.models.WishAdapterModel.Wish
+import ru.ktsstudio.wishlist.data.db.model.Wish
 import ru.ktsstudio.wishlist.data.stores.LocalWishesStore
 
 @Database(entities = [Wish::class], version = 1)

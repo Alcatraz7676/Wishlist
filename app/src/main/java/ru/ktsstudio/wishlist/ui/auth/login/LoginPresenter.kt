@@ -1,52 +1,41 @@
 package ru.ktsstudio.wishlist.ui.auth.login
 
-import android.Manifest
-import android.app.Activity
-import android.content.SharedPreferences
-import androidx.core.app.ActivityCompat
+import android.content.res.Resources
 import com.arellomobile.mvp.InjectViewState
-import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.Observable
+import io.reactivex.rxkotlin.Observables
 import io.reactivex.rxkotlin.addTo
-import io.reactivex.schedulers.Schedulers
-import ru.ktsstudio.wishlist.data.models.body.LoginBody
-import ru.ktsstudio.wishlist.data.network.HttpStatusInterceptor
-import ru.ktsstudio.wishlist.data.network.WishApiService
-import ru.ktsstudio.wishlist.ui.BasePresenter
-import ru.ktsstudio.wishlist.utils.KEY_TOKEN
-import ru.ktsstudio.wishlist.utils.KEY_USER_LOGIN
-import javax.inject.Inject
+import ru.ktsstudio.wishlist.R
+import ru.ktsstudio.wishlist.data.network.interceptors.HttpStatusInterceptor
+import ru.ktsstudio.wishlist.data.network.repository.WishApiRepository
+import ru.ktsstudio.wishlist.data.prefs.SharedPreferenceRepository
+import ru.ktsstudio.wishlist.ui.common.BasePresenter
+import ru.ktsstudio.wishlist.utils.Screens
+import ru.terrakok.cicerone.Router
 
 @InjectViewState
-class LoginPresenter : BasePresenter<LoginView>() {
-
-    @Inject
-    lateinit var wishApiService: WishApiService
-    @Inject
-    lateinit var sharedPreferences: SharedPreferences
-    @Inject
-    lateinit var activity: Activity
+class LoginPresenter(
+    private var wishApiRepository: WishApiRepository,
+    private var sharedPreferenceRepository: SharedPreferenceRepository,
+    private var resources: Resources,
+    private var localRouter: Router,
+    private var globalRouter: Router
+) : BasePresenter<LoginView>() {
 
     fun login(email: String, password: String) {
-        wishApiService.login(
-            LoginBody(email, password)
-        )
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+        wishApiRepository.login(email, password)
+            .map { response ->
+                sharedPreferenceRepository.saveUser(response.data?.token, response.data?.email)
+            }
             .doOnSubscribe { viewState.showLoading(true) }
             .doOnError { viewState.showLoading(false) }
-            .subscribe({ response ->
-                val editor = sharedPreferences.edit()
-                editor.apply {
-                    putString(KEY_TOKEN, response.data?.token)
-                    putString(KEY_USER_LOGIN, response.data?.email)
-                }
-                editor.apply()
-                requestPermissions()
+            .subscribe({
+                viewState.requestContactPermission()
             }, {
                 if (it is HttpStatusInterceptor.UnauthorizedException)
-                    viewState.showToast("Неверный логин или пароль")
+                    viewState.showToast(resources.getString(R.string.auth_fragment_toast_wrong_login_or_password))
                 else
-                    viewState.showToast("Не удалось авторизоваться")
+                    viewState.showToast(resources.getString(R.string.auth_fragment_toast_auth_error))
             })
             .addTo(compositeDisposable)
     }
@@ -55,28 +44,27 @@ class LoginPresenter : BasePresenter<LoginView>() {
         viewState.showPermissionRationale(show)
     }
 
-    fun requestContactPermission() {
-        viewState.requestContactPermission()
+    fun loginBtnActivation(
+        emailObservable: Observable<CharSequence>,
+        passwordObservable: Observable<CharSequence>
+    ) {
+        Observables.combineLatest(emailObservable, passwordObservable) { newEmail, newPassword ->
+            viewState.enableLogin(newEmail.isNotBlank() && newPassword.isNotBlank())
+        }
+            .subscribe()
+            .addTo(compositeDisposable)
     }
 
     fun navigateToMain() {
-        viewState.navigateToMain()
+        globalRouter.newRootScreen(Screens.MainContainer())
     }
 
     fun navigateToRegister() {
-        viewState.navigateToRegister()
+        localRouter.navigateTo(Screens.RegisterScreen())
     }
 
-    private fun requestPermissions() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(
-                activity,
-                Manifest.permission.READ_CONTACTS
-            )
-        ) {
-            viewState.showPermissionRationale(true)
-        } else {
-            requestContactPermission()
-        }
+    fun onBackPressed() {
+        localRouter.exit()
     }
 
 }

@@ -4,13 +4,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import ru.ktsstudio.wishlist.R
-import ru.ktsstudio.wishlist.ui.main.wishtabs.tabs.FavoriteFragment
-import ru.ktsstudio.wishlist.ui.main.wishtabs.tabs.MyFragment
-import ru.ktsstudio.wishlist.ui.main.wishtabs.tabs.PopularFragment
+import ru.ktsstudio.wishlist.ui.main.wishtabs.tabs.favourite.FavouriteTabFragment
+import ru.ktsstudio.wishlist.ui.main.wishtabs.tabs.my.MyTabFragment
+import ru.ktsstudio.wishlist.ui.main.wishtabs.tabs.popular.PopularTabFragment
 
 class WishTabsPagerAdapter(
     fragmentManager: FragmentManager,
-    private val contactNames: List<String>?,
     getStr: (Int) -> String
 ) : FragmentPagerAdapter(fragmentManager) {
 
@@ -21,20 +20,11 @@ class WishTabsPagerAdapter(
     )
 
     override fun getItem(position: Int): Fragment {
-        return if (contactNames != null) {
-            when (position) {
-                0 -> FavoriteFragment.newInstance(contactNames)
-                1 -> PopularFragment.newInstance(contactNames)
-                2 -> MyFragment()
-                else -> error("Unexpected")
-            }
-        } else {
-            when (position) {
-                0 -> FavoriteFragment()
-                1 -> PopularFragment()
-                2 -> MyFragment()
-                else -> error("Unexpected")
-            }
+        return when (position) {
+            0 -> FavouriteTabFragment()
+            1 -> PopularTabFragment()
+            2 -> MyTabFragment()
+            else -> error("Unexpected")
         }
     }
 

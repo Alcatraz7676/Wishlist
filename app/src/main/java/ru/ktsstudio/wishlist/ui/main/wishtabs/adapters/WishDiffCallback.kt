@@ -2,9 +2,8 @@ package ru.ktsstudio.wishlist.ui.main.wishtabs.adapters
 
 import android.annotation.SuppressLint
 import androidx.recyclerview.widget.DiffUtil
-import ru.ktsstudio.wishlist.data.models.WishAdapterModel
-import ru.ktsstudio.wishlist.data.models.WishAdapterModel.Header
-import ru.ktsstudio.wishlist.data.models.WishAdapterModel.Wish
+import ru.ktsstudio.wishlist.ui.main.wishtabs.adapters.WishAdapterModel.Header
+import ru.ktsstudio.wishlist.ui.main.wishtabs.adapters.WishAdapterModel.Wish
 
 @SuppressLint("DiffUtilEquals")
 class WishDiffCallback : DiffUtil.ItemCallback<WishAdapterModel>() {
