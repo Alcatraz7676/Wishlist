@@ -1,23 +1,23 @@
 package ru.ktsstudio.wishlist.utils
 
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
+import androidx.fragment.app.FragmentTransaction
+import ru.ktsstudio.wishlist.data.db.model.Wish
+import ru.ktsstudio.wishlist.ui.main.wishtabs.adapters.WishAdapterModel
 
-fun FragmentManager.navigateReplace(containerId: Int, fragment: Fragment) {
-    this.beginTransaction()
-        .replace(containerId, fragment)
-        .commitNow()
+fun FragmentTransaction.setFadeAnimation() {
+    this.setCustomAnimations(
+        android.R.anim.fade_in,
+        android.R.anim.fade_out,
+        android.R.anim.fade_in,
+        android.R.anim.fade_out
+    )
 }
 
-fun FragmentManager.navigateAdd(containerId: Int, fragment: Fragment) {
-    this.beginTransaction()
-        .addToBackStack(null)
-        .replace(containerId, fragment)
-        .commit()
-}
-
-fun Disposable.addTo(composite: CompositeDisposable) {
-    composite.addAll(this)
-}
+fun Wish.toAdapterModel() = WishAdapterModel.Wish(
+        this.id,
+        this.title,
+        this.description,
+        this.author.login,
+        this.isFavourite,
+        this.photoId
+    )

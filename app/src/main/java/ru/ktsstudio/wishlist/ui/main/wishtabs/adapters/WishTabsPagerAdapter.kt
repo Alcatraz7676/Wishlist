@@ -4,12 +4,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import ru.ktsstudio.wishlist.R
-import ru.ktsstudio.wishlist.ui.main.wishtabs.FavoriteFragment
-import ru.ktsstudio.wishlist.ui.main.wishtabs.MyFragment
-import ru.ktsstudio.wishlist.ui.main.wishtabs.PopularFragment
+import ru.ktsstudio.wishlist.ui.main.wishtabs.tabs.favourite.FavouriteTabFragment
+import ru.ktsstudio.wishlist.ui.main.wishtabs.tabs.my.MyTabFragment
+import ru.ktsstudio.wishlist.ui.main.wishtabs.tabs.popular.PopularTabFragment
 
-class WishTabsPagerAdapter(fragmentManager: FragmentManager, getStr: (Int) -> String) :
-    FragmentPagerAdapter(fragmentManager) {
+class WishTabsPagerAdapter(
+    fragmentManager: FragmentManager,
+    getStr: (Int) -> String
+) : FragmentPagerAdapter(fragmentManager) {
 
     private val tabs = listOf(
         getStr(R.string.wishtabs_fragment_tab_favorite),
@@ -19,9 +21,9 @@ class WishTabsPagerAdapter(fragmentManager: FragmentManager, getStr: (Int) -> St
 
     override fun getItem(position: Int): Fragment {
         return when (position) {
-            0 -> FavoriteFragment()
-            1 -> PopularFragment()
-            2 -> MyFragment()
+            0 -> FavouriteTabFragment()
+            1 -> PopularTabFragment()
+            2 -> MyTabFragment()
             else -> error("Unexpected")
         }
     }
@@ -29,7 +31,6 @@ class WishTabsPagerAdapter(fragmentManager: FragmentManager, getStr: (Int) -> St
     override fun getPageTitle(position: Int): CharSequence? = tabs[position]
 
     override fun getCount() = tabs.size
-
 
 
 }

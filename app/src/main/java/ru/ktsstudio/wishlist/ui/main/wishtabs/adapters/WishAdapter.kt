@@ -1,20 +1,44 @@
 package ru.ktsstudio.wishlist.ui.main.wishtabs.adapters
 
 import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
-import ru.ktsstudio.wishlist.data.models.WishAdapterModel.Wish
-import ru.ktsstudio.wishlist.data.models.WishAdapterModel
+import ru.ktsstudio.wishlist.ui.main.wishtabs.adapters.WishAdapterModel.Header
 import ru.ktsstudio.wishlist.ui.main.wishtabs.adapters.delegates.HeaderAdapterDelegate
 import ru.ktsstudio.wishlist.ui.main.wishtabs.adapters.delegates.WishAdapterDelegate
 
 class WishAdapter : AsyncListDifferDelegationAdapter<WishAdapterModel> {
 
-    constructor(items: List<WishAdapterModel>, clickListener: (Wish) -> Unit) : super(WishDiffCallback()) {
+    private val header: Header
+    private val wishAdapterDelegate: WishAdapterDelegate
+
+    constructor(
+        header: Header,
+        clickListener: (WishAdapterModel.Wish) -> Unit,
+        addToFavouriteListener: (Long, Boolean) -> Unit
+    ) : super(WishDiffCallback()) {
+
+        wishAdapterDelegate = WishAdapterDelegate(clickListener, addToFavouriteListener)
+
         sequenceOf(
             HeaderAdapterDelegate(),
-            WishAdapterDelegate(clickListener)
+            wishAdapterDelegate
         ).forEach { delegatesManager.addDelegate(it) }
 
-        setItems(items)
+        this.header = header
+        items = mutableListOf()
     }
 
+    fun setContactNames(contactNames: List<String>) {
+        wishAdapterDelegate.contactNames = contactNames
+    }
+
+    fun getWishItems(): MutableList<WishAdapterModel.Wish> {
+        return items.filterIsInstance(WishAdapterModel.Wish::class.java).toMutableList()
+    }
+
+    fun setWishItems(newWishes: List<WishAdapterModel.Wish>?) {
+        val newItems = mutableListOf<WishAdapterModel>()
+        newItems.addAll(newWishes!!)
+        newItems.add(0, header)
+        items = newItems
+    }
 }

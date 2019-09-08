@@ -1,138 +1,127 @@
 package ru.ktsstudio.wishlist.data.stores
 
-import ru.ktsstudio.wishlist.data.models.User
-import ru.ktsstudio.wishlist.data.models.WishAdapterModel
+import ru.ktsstudio.wishlist.data.db.model.User
+import ru.ktsstudio.wishlist.data.db.model.Wish
 
 object LocalWishesStore {
 
-    fun getAllWishes(): List<WishAdapterModel> {
+    fun getAllWishes(): List<Wish> {
         return listOf(
-            WishAdapterModel.Wish(
-                id = 0,
-                title = "Велосипед",
-                description = "STELS Navigator 500 V 26 V020",
-                author = User("desure"),
-                isFavourite = false
-            ),
-            WishAdapterModel.Wish(
-                id = 1,
-                title = "Игровая приставка",
-                description = "Nintendo Switch",
-                author = User("desure"),
-                isFavourite = true
-            ),
-            WishAdapterModel.Wish(
-                id = 2,
-                title = "Альбом группы Queen",
-                description = "The Platinum Collection: Greatest Hits I, II & III",
-                author = User("desure"),
-                isFavourite = false
-            ),
-            WishAdapterModel.Wish(
-                id = 3,
-                title = "Новый телефон",
-                description = "Xiaomi Mi 9T 6/64GB",
-                author = User("alebedeb77"),
-                isFavourite = true
-            ),
-            WishAdapterModel.Wish(
-                id = 4,
-                title = "Электронная книга",
-                description = "PocketBook 616",
-                author = User("alebedeb77"),
-                isFavourite = true
-            ),
-            WishAdapterModel.Wish(
-                id = 5,
-                title = "Экшн-камера",
-                description = "GoPro HERO7 (CHDHX-701)",
-                author = User("kotlon"),
-                isFavourite = false
-            ),
-            WishAdapterModel.Wish(
-                id = 6,
-                title = "Умная колонка",
-                description = "Amazon Echo Plus Gen 2",
-                author = User("kotlon"),
-                isFavourite = true
-            ),
-            WishAdapterModel.Wish(
-                id = 7,
-                title = "Кроссовки",
-                description = "adidas yung 1",
-                author = User("kotlon"),
-                isFavourite = false
-            ),
-            WishAdapterModel.Wish(
-                id = 8,
-                title = "Электросамокат",
-                description = "KUGOO S3",
-                author = User("javtur"),
-                isFavourite = true
-            ),
-            WishAdapterModel.Wish(
-                id = 9,
-                title = "Видеоигра",
-                description = "Cyberpunk 2077",
-                author = User("javtur"),
-                isFavourite = true
-            ),
-            WishAdapterModel.Wish(
-                id = 10,
-                title = "Картина",
-                description = "Шишкин Иван, картина \"Утро в сосновом лесу\"",
-                author = User("kotlon"),
-                isFavourite = true
-            ),
-            WishAdapterModel.Wish(
-                id = 11,
-                title = "Микрофон",
-                description = "Blue Yeti nano",
-                author = User("javtur"),
-                isFavourite = true
-            ),
-            WishAdapterModel.Wish(
-                id = 12,
-                title = "Отдых в пятизвездочном отеле",
-                description = "В какой-нибудь жаркой стране",
-                author = User("javtur"),
-                isFavourite = false
-            ),
-            WishAdapterModel.Wish(
-                id = 13,
-                title = "Ноутбук",
-                description = "Xiaomi Mi Notebook Air 13.3\" 2018",
-                author = User("javtur"),
-                isFavourite = false
-            ),
-            WishAdapterModel.Wish(
-                id = 14,
-                title = "Книга",
-                description = "Kotlin in Action",
-                author = User("admin"),
-                isFavourite = false
-            ),
-            WishAdapterModel.Wish(
-                id = 15,
-                title = "Видеорегистратор",
-                description = "Xiaomi 70mai Dash Cam Pro Midrive D02",
-                author = User("admin"),
-                isFavourite = false
-            ),
-            WishAdapterModel.Wish(
-                id = 16,
-                title = "Мультиварка",
-                description = "REDMOND RMC-M90",
-                author = User("admin"),
-                isFavourite = false
-            ),
-            WishAdapterModel.Wish(
-                id = 17,
-                title = "Беспроводные наушники",
-                description = "Apple AirPods 2",
-                author = User("admin"),
-                isFavourite = false
+            Wish(
+                0,
+                "Велосипед",
+                "STELS Navigator 500 V 26 V020",
+                User(),
+                photoId = 18
+            ), Wish(
+                1,
+                "Игровая приставка",
+                "Nintendo Switch",
+                User(),
+                photoId = 1
+            ), Wish(
+                2,
+                "Альбом группы Queen",
+                "The Platinum Collection: Greatest Hits I, II & III",
+                User(),
+                photoId = 2
+            ), Wish(
+                3,
+                "Новый телефон",
+                "Xiaomi Mi 9T 6/64GB",
+                User(),
+                photoId = 3
+            ), Wish(
+                4,
+                "Электронная книга",
+                "PocketBook 616",
+                User(),
+                photoId = 4
+            ), Wish(
+                5,
+                "Экшн-камера",
+                "GoPro HERO7 (CHDHX-701)",
+                User(),
+                photoId = 5
+            ), Wish(
+                6,
+                "Умная колонка",
+                "Amazon Echo Plus Gen 2",
+                User(),
+                photoId = 6
+            ), Wish(
+                7,
+                "Кроссовки",
+                "adyung 1",
+                User(),
+                photoId = 7
+            ), Wish(
+                8,
+                "Электросамокат",
+                "KUGOO S3",
+                User(),
+                photoId = 8
+            ), Wish(
+                9,
+                "Видеоигра",
+                "Cyberpunk 2077",
+                User(),
+                photoId = 9
+            ), Wish(
+                10,
+                "Картина",
+                "Шишкин Иван, картина \"Утро в сосновом лесу\"",
+                User(),
+                photoId = 10
+            ), Wish(
+                11,
+                "Микрофон",
+                "Blue Yeti nano",
+                User(),
+                photoId = 11
+            ), Wish(
+                12,
+                "Отдых в пятизвездочном отеле",
+                "В какой-нибудь жаркой стране",
+                User(),
+                photoId = 12
+            ), Wish(
+                13,
+                "Ноутбук",
+                "Xiaomi Mi Notebook Air 13.3\" 2018",
+                User(),
+                photoId = 13
+            ), Wish(
+                14,
+                "Книга",
+                "Kotlin in Action",
+                User(),
+                photoId = 14
+            ), Wish(
+                15,
+                "Видеорегистратор",
+                "Xiaomi 70mai Dash Cam Pro Me D02",
+                User(),
+                photoId = 15
+            ), Wish(
+                16,
+                "Мультиварка",
+                "REDMOND RMC-M90",
+                User(),
+                photoId = 16
+            ), Wish(
+                17,
+                "Беспроводные наушники",
+                "Apple AirPods 2",
+                User(),
+                photoId = 17
+            ), Wish(
+                18,
+                "Джинсовка Levis",
+                "Levi's® Made & Crafted® Native Trucker Jacket",
+                User("Аня"),
+                photoId = 17
             )
-        ).shuffled()
+        )
     }
 }

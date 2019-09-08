@@ -9,8 +9,8 @@ import com.hannesdorfmann.adapterdelegates4.AbsListItemAdapterDelegate
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_header.*
 import ru.ktsstudio.wishlist.R
-import ru.ktsstudio.wishlist.data.models.WishAdapterModel
-import ru.ktsstudio.wishlist.data.models.WishAdapterModel.Header
+import ru.ktsstudio.wishlist.ui.main.wishtabs.adapters.WishAdapterModel
+import ru.ktsstudio.wishlist.ui.main.wishtabs.adapters.WishAdapterModel.Header
 
 class HeaderAdapterDelegate :
     AbsListItemAdapterDelegate<Header, WishAdapterModel, HeaderAdapterDelegate.HeaderHolder>() {
@@ -23,7 +23,11 @@ class HeaderAdapterDelegate :
         return HeaderHolder(view)
     }
 
-    override fun isForViewType(item: WishAdapterModel, items: MutableList<WishAdapterModel>, position: Int): Boolean {
+    override fun isForViewType(
+        item: WishAdapterModel,
+        items: MutableList<WishAdapterModel>,
+        position: Int
+    ): Boolean {
         return item is Header
     }
 

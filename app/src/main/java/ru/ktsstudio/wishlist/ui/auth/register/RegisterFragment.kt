@@ -6,29 +6,56 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
+import com.arellomobile.mvp.presenter.InjectPresenter
+import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.jakewharton.rxbinding3.view.clicks
 import com.jakewharton.rxbinding3.widget.textChanges
+import io.reactivex.rxkotlin.addTo
 import kotlinx.android.synthetic.main.fragment_register.*
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.rxkotlin.Observables
-import io.reactivex.schedulers.Schedulers
 import ru.ktsstudio.wishlist.R
-import ru.ktsstudio.wishlist.data.models.body.RegisterBody
-import ru.ktsstudio.wishlist.data.models.User
-import ru.ktsstudio.wishlist.data.network.HttpStatusInterceptor
-import ru.ktsstudio.wishlist.data.stores.RetrofitStore
-import ru.ktsstudio.wishlist.data.stores.TokenStore
-import ru.ktsstudio.wishlist.ui.BaseFragment
-import ru.ktsstudio.wishlist.ui.app.MainActivity
-import ru.ktsstudio.wishlist.ui.auth.AuthNavigator
-import ru.ktsstudio.wishlist.utils.addTo
+import ru.ktsstudio.wishlist.data.network.repository.WishApiRepository
+import ru.ktsstudio.wishlist.data.prefs.SharedPreferenceRepository
+import ru.ktsstudio.wishlist.di.DI
+import ru.ktsstudio.wishlist.ui.common.BackButtonListener
+import ru.ktsstudio.wishlist.ui.common.BaseFragment
+import ru.ktsstudio.wishlist.ui.common.GlobalRouterProvider
+import ru.ktsstudio.wishlist.ui.common.LocalRouterProvider
+import ru.terrakok.cicerone.Router
+import toothpick.Toothpick
+import javax.inject.Inject
 
-class RegisterFragment : BaseFragment() {
+class RegisterFragment : BaseFragment(), RegisterView, BackButtonListener {
 
-    private val authNavigator: AuthNavigator
-        get() = parentFragment as AuthNavigator
+    init {
+        val scope = Toothpick.openScopes(DI.APP, DI.ACTIVITY, DI.AUTH)
+        Toothpick.inject(this, scope)
+    }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    @Inject
+    lateinit var wishApiRepository: WishApiRepository
+    @Inject
+    lateinit var sharedPreferenceRepository: SharedPreferenceRepository
+
+    @InjectPresenter
+    lateinit var presenter: RegisterPresenter
+
+    @ProvidePresenter
+    fun providePresenter() =
+        RegisterPresenter(wishApiRepository, sharedPreferenceRepository, resources, localRouter,
+            globalRouter
+        )
+
+    private val localRouter: Router
+        get() = (parentFragment as LocalRouterProvider).getRouter()
+
+    private val globalRouter: Router
+        get() = (parentFragment as GlobalRouterProvider).getGlobalRouter()
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_register, container, false)
     }
 
@@ -36,8 +63,36 @@ class RegisterFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupEditText()
         btn_register.clicks().subscribe {
-            register()
+            presenter.register(
+                input_name.text.toString(),
+                input_surname.text.toString(),
+                input_email.text.toString(),
+                input_password.text.toString()
+            )
         }.addTo(compositeDisposable)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        presenter.onDestroy()
+    }
+
+    override fun showLoading(toLoad: Boolean) {
+        group_register.isVisible = !toLoad
+        progress_bar.isVisible = toLoad
+    }
+
+    override fun showToast(text: String) {
+        Toast.makeText(activity, text, Toast.LENGTH_LONG).show()
+    }
+
+    override fun enableRegister(enable: Boolean) {
+        btn_register.isEnabled = enable
+    }
+
+    override fun onBackPressed(): Boolean {
+        presenter.onBackPressed()
+        return true
     }
 
     private fun setupEditText() {
@@ -46,46 +101,12 @@ class RegisterFragment : BaseFragment() {
         val nameObservable = input_name.textChanges()
         val surnameObservable = input_surname.textChanges()
 
-        Observables.combineLatest(emailObservable, passwordObservable, nameObservable, surnameObservable) {
-                newEmail, newPassword, newName, newSurname ->
-            btn_register.isEnabled = newEmail.isNotBlank() && newPassword.isNotBlank() &&
-                    newName.isNotBlank() && newSurname.isNotBlank()
-        }.subscribe()
-    }
-
-    private fun register() {
-        RetrofitStore.service.register(
-            RegisterBody(
-                firstName = input_name.text.toString(),
-                lastName = input_surname.text.toString(),
-                email = input_email.text.toString(),
-                password = input_password.text.toString()
-            )
+        presenter.registerBtnActivation(
+            emailObservable,
+            passwordObservable,
+            nameObservable,
+            surnameObservable
         )
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { showLoading(true) }
-            .doOnTerminate { showLoading(false) }
-            .subscribe({ response ->
-                TokenStore.token = response.data?.token
-                (activity as MainActivity).currentUser = User(response.data?.email!!)
-                authNavigator.navigateToMain()
-            }, {
-                if (it is HttpStatusInterceptor.UserExistsException)
-                    showToast("Пользователь с такой почтой уже существует")
-                else
-                    showToast("Не удалось авторизоваться")
-            })
-            .addTo(compositeDisposable)
-    }
-
-    private fun showLoading(toLoad: Boolean) {
-        group_register.isVisible = !toLoad
-        progress_bar.isVisible = toLoad
-    }
-
-    private fun showToast(text: String) {
-        Toast.makeText(activity, text, Toast.LENGTH_LONG).show()
     }
 
 }

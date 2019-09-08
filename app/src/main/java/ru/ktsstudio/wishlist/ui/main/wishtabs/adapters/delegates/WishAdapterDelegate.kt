@@ -3,6 +3,7 @@ package ru.ktsstudio.wishlist.ui.main.wishtabs.adapters.delegates
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -12,13 +13,16 @@ import com.hannesdorfmann.adapterdelegates4.AbsListItemAdapterDelegate
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_wish.*
 import ru.ktsstudio.wishlist.R
-import ru.ktsstudio.wishlist.data.models.WishAdapterModel
-import ru.ktsstudio.wishlist.data.models.WishAdapterModel.Wish
+import ru.ktsstudio.wishlist.ui.custom.ProgressPlaceholder
+import ru.ktsstudio.wishlist.ui.main.wishtabs.adapters.WishAdapterModel
 import ru.ktsstudio.wishlist.utils.IMAGE_PLACEHOLDER_URL
-import ru.ktsstudio.wishlist.utils.ProgressPlaceholder
 
-class WishAdapterDelegate(private val clickListener: (Wish) -> Unit) :
-    AbsListItemAdapterDelegate<Wish, WishAdapterModel, WishAdapterDelegate.WishHolder>() {
+class WishAdapterDelegate(
+    private val clickListener: (WishAdapterModel.Wish) -> Unit,
+    private val changeFavouriteListener: (Long, Boolean) -> Unit
+) : AbsListItemAdapterDelegate<WishAdapterModel.Wish, WishAdapterModel, WishAdapterDelegate.WishHolder>() {
+
+    var contactNames: List<String>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup): WishHolder {
         val view = LayoutInflater
@@ -29,10 +33,10 @@ class WishAdapterDelegate(private val clickListener: (Wish) -> Unit) :
     }
 
     override fun isForViewType(item: WishAdapterModel, items: MutableList<WishAdapterModel>, position: Int): Boolean {
-        return item is Wish
+        return item is WishAdapterModel.Wish
     }
 
-    override fun onBindViewHolder(item: Wish, holder: WishHolder, payloads: MutableList<Any>) {
+    override fun onBindViewHolder(item: WishAdapterModel.Wish, holder: WishHolder, payloads: MutableList<Any>) {
         holder.bind(item)
     }
 
@@ -41,31 +45,43 @@ class WishAdapterDelegate(private val clickListener: (Wish) -> Unit) :
 
         private val factory = DrawableCrossFadeFactory.Builder().setCrossFadeEnabled(true).build()
 
-        fun bind(wish: Wish) {
+        fun bind(wish: WishAdapterModel.Wish) {
             with(wish) {
                 tv_title.text = title
                 tv_description.text = description
-                if (photoId != null) {
+                if (photoId != 0) {
                     Glide.with(iv_wish)
                         .load("$IMAGE_PLACEHOLDER_URL/${wish.photoId}")
-                        .placeholder(ProgressPlaceholder(containerView.context))
+                        .placeholder(
+                            ProgressPlaceholder(
+                                containerView.context
+                            )
+                        )
                         .error(R.drawable.bg_placeholder)
                         .transition(DrawableTransitionOptions.withCrossFade(factory))
                         .into(iv_wish)
-                    iv_wish.isVisible = true
                 }
-                iv_favorite.isVisible = isFavourite
-                val login = author?.takeIf { it.login.isNotBlank() }?.login
-                tv_author.text = containerView.context.getString(R.string.wishtabs_fragment_tv_author, login)
-                tv_author.isVisible = login != null
+                iv_wish.isVisible = photoId != 0
+
+                val favouriteImage = if (isFavourite) R.drawable.ic_star_accent_36dp else R.drawable.ic_star_border_36dp
+                iv_favorite.setImageDrawable(ContextCompat.getDrawable(containerView.context, favouriteImage))
+
+                tv_author.text = containerView.context.getString(R.string.wishtabs_fragment_tv_author, authorLogin)
+                contactNames?.let {
+                    iv_contact.isVisible = contactNames!!.contains(authorLogin)
+                }
+                tv_author.isVisible = authorLogin != ""
             }
+
             containerView.setOnClickListener {
                 clickListener(wish)
             }
 
+            iv_favorite.setOnClickListener {
+                changeFavouriteListener(wish.id, wish.isFavourite.not())
+            }
         }
 
     }
-
 
 }

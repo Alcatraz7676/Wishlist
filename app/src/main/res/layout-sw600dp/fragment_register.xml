@@ -58,7 +58,7 @@
                 android:id="@+id/input_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/login_fragment_et_hint_name"
+                android:hint="@string/auth_fragment_et_hint_name"
                 android:inputType="textEmailAddress"
                 android:textSize="22sp" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -76,7 +76,7 @@
                 android:id="@+id/input_surname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/login_fragment_et_hint_surname"
+                android:hint="@string/auth_fragment_et_hint_surname"
                 android:inputType="textEmailAddress"
                 android:textSize="22sp" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -94,7 +94,7 @@
                 android:id="@+id/input_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/login_fragment_et_hint_email"
+                android:hint="@string/auth_fragment_et_hint_email"
                 android:inputType="textEmailAddress"
                 android:textSize="22sp" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -112,7 +112,7 @@
                 android:id="@+id/input_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/login_fragment_et_hint_password"
+                android:hint="@string/auth_fragment_et_hint_password"
                 android:inputType="textPassword"
                 android:textSize="22sp" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -123,7 +123,7 @@
             android:layout_height="70dp"
             android:layout_marginTop="32dp"
             android:enabled="false"
-            android:text="@string/login_fragment_btn_text_register"
+            android:text="@string/auth_fragment_btn_text_register"
             android:textSize="22sp"
             app:backgroundTint="@color/colorPrimaryDarker"
             app:layout_constraintEnd_toStartOf="@+id/guideline_end"
