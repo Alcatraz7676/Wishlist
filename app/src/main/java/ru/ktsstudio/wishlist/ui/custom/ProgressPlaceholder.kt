@@ -20,6 +20,7 @@ class ProgressPlaceholder(context: Context) : CircularProgressDrawable(context) 
         centerRadius = CENTER_RADIUS
     }
 
+
     companion object {
         private const val STROKE_WIDTH = 15F
         private const val CENTER_RADIUS = 90F

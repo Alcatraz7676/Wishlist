@@ -1,10 +1,14 @@
 package ru.ktsstudio.wishlist.ui.auth.register
 
+import android.Manifest
+import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
@@ -13,9 +17,8 @@ import com.jakewharton.rxbinding3.widget.textChanges
 import io.reactivex.rxkotlin.addTo
 import kotlinx.android.synthetic.main.fragment_register.*
 import ru.ktsstudio.wishlist.R
-import ru.ktsstudio.wishlist.data.network.repository.WishApiRepository
-import ru.ktsstudio.wishlist.data.prefs.SharedPreferenceRepository
 import ru.ktsstudio.wishlist.di.DI
+import ru.ktsstudio.wishlist.ui.auth.AuthFragmentContainer.Companion.MY_PERMISSIONS_REQUEST_READ_CONTACTS
 import ru.ktsstudio.wishlist.ui.common.BackButtonListener
 import ru.ktsstudio.wishlist.ui.common.BaseFragment
 import ru.ktsstudio.wishlist.ui.common.GlobalRouterProvider
@@ -32,24 +35,22 @@ class RegisterFragment : BaseFragment(), RegisterView, BackButtonListener {
     }
 
     @Inject
-    lateinit var wishApiRepository: WishApiRepository
-    @Inject
-    lateinit var sharedPreferenceRepository: SharedPreferenceRepository
+    lateinit var registerInteractor: IRegisterInteractor
 
     @InjectPresenter
     lateinit var presenter: RegisterPresenter
 
     @ProvidePresenter
     fun providePresenter() =
-        RegisterPresenter(wishApiRepository, sharedPreferenceRepository, resources, localRouter,
-            globalRouter
-        )
+        RegisterPresenter(registerInteractor, resources, localRouter, globalRouter)
 
     private val localRouter: Router
         get() = (parentFragment as LocalRouterProvider).getRouter()
 
     private val globalRouter: Router
         get() = (parentFragment as GlobalRouterProvider).getGlobalRouter()
+
+    private var rationaleDialog: AlertDialog? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -77,6 +78,17 @@ class RegisterFragment : BaseFragment(), RegisterView, BackButtonListener {
         presenter.onDestroy()
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        if (requestCode == MY_PERMISSIONS_REQUEST_READ_CONTACTS)
+            presenter.navigateToMain()
+        else
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
     override fun showLoading(toLoad: Boolean) {
         group_register.isVisible = !toLoad
         progress_bar.isVisible = toLoad
@@ -93,6 +105,37 @@ class RegisterFragment : BaseFragment(), RegisterView, BackButtonListener {
     override fun onBackPressed(): Boolean {
         presenter.onBackPressed()
         return true
+    }
+
+    override fun showPermissionRationale(show: Boolean) {
+        if (show) {
+            rationaleDialog = AlertDialog.Builder(requireContext())
+                .setMessage(R.string.permission_contacts_rationale)
+                .setPositiveButton(android.R.string.ok) { _, _ ->
+                    presenter.showRationaleDialog(false)
+                }
+                .setNegativeButton(android.R.string.no) { _, _ ->
+                    presenter.showRationaleDialog(false)
+                }
+                .show()
+        } else {
+            rationaleDialog?.dismiss()
+        }
+    }
+
+    override fun requestContactPermission() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(
+                activity as Activity,
+                Manifest.permission.READ_CONTACTS
+            )
+        ) {
+            presenter.showRationaleDialog(true)
+        } else {
+            requestPermissions(
+                arrayOf(Manifest.permission.READ_CONTACTS),
+                MY_PERMISSIONS_REQUEST_READ_CONTACTS
+            )
+        }
     }
 
     private fun setupEditText() {

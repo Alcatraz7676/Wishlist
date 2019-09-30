@@ -2,7 +2,7 @@ package ru.ktsstudio.wishlist.ui.main.wishtabs.adapters
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
+import androidx.fragment.app.FragmentStatePagerAdapter
 import ru.ktsstudio.wishlist.R
 import ru.ktsstudio.wishlist.ui.main.wishtabs.tabs.favourite.FavouriteTabFragment
 import ru.ktsstudio.wishlist.ui.main.wishtabs.tabs.my.MyTabFragment
@@ -11,7 +11,7 @@ import ru.ktsstudio.wishlist.ui.main.wishtabs.tabs.popular.PopularTabFragment
 class WishTabsPagerAdapter(
     fragmentManager: FragmentManager,
     getStr: (Int) -> String
-) : FragmentPagerAdapter(fragmentManager) {
+) : FragmentStatePagerAdapter(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     private val tabs = listOf(
         getStr(R.string.wishtabs_fragment_tab_favorite),

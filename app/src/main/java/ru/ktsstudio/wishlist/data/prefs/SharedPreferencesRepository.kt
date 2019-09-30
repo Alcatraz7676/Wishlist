@@ -7,7 +7,7 @@ const val KEY_TOKEN = "TOKEN"
 const val KEY_USER_LOGIN = "USER_LOGIN"
 
 @InjectConstructor
-class SharedPreferenceRepository(
+class SharedPreferencesRepository(
     private val sharedPreferences: SharedPreferences
 ) : ISharedPreferencesRepository {
 

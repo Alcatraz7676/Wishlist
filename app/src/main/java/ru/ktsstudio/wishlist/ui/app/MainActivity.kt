@@ -14,8 +14,8 @@ import com.google.android.material.snackbar.Snackbar
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.ktsstudio.wishlist.R
-import ru.ktsstudio.wishlist.data.prefs.SharedPreferenceRepository
 import ru.ktsstudio.wishlist.di.DI
+import ru.ktsstudio.wishlist.di.modules.ActivityModule
 import ru.ktsstudio.wishlist.ui.auth.AuthFragmentContainer
 import ru.ktsstudio.wishlist.ui.common.BackButtonListener
 import ru.ktsstudio.wishlist.ui.common.GlobalRouterProvider
@@ -31,13 +31,14 @@ class MainActivity : MvpAppCompatActivity(), MainView, GlobalRouterProvider {
 
     init {
         val scope = Toothpick.openScopes(DI.APP, DI.ACTIVITY)
+        scope.installModules(ActivityModule())
         Toothpick.inject(this, scope)
     }
 
     private var broadcastReceiverDisposable: Disposable? = null
 
     @Inject
-    lateinit var sharedPreferenceRepository: SharedPreferenceRepository
+    lateinit var mainInteractor: IMainInteractor
 
     @Inject
     lateinit var navigatorHolder: NavigatorHolder
@@ -49,7 +50,7 @@ class MainActivity : MvpAppCompatActivity(), MainView, GlobalRouterProvider {
 
     @ProvidePresenter
     fun providePresenter() = MainPresenter(
-        sharedPreferenceRepository,
+        mainInteractor,
         router
     )
 

@@ -2,16 +2,16 @@ package ru.ktsstudio.wishlist.data.network.interceptors
 
 import okhttp3.Interceptor
 import okhttp3.Response
-import ru.ktsstudio.wishlist.data.prefs.SharedPreferenceRepository
+import ru.ktsstudio.wishlist.data.prefs.ISharedPreferencesRepository
 import toothpick.InjectConstructor
 
 @InjectConstructor
 class AddTokenInterceptor(
-    private val sharedPreferenceRepository: SharedPreferenceRepository
+    private val sharedPreferencesRepository: ISharedPreferencesRepository
 ) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
-        val token = sharedPreferenceRepository.getToken()
+        val token = sharedPreferencesRepository.getToken()
         val originalRequest = chain.request()
 
         val request = if (token != null) {

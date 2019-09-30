@@ -7,26 +7,20 @@ import io.reactivex.rxkotlin.Observables
 import io.reactivex.rxkotlin.addTo
 import ru.ktsstudio.wishlist.R
 import ru.ktsstudio.wishlist.data.network.interceptors.HttpStatusInterceptor
-import ru.ktsstudio.wishlist.data.network.repository.WishApiRepository
-import ru.ktsstudio.wishlist.data.prefs.SharedPreferenceRepository
 import ru.ktsstudio.wishlist.ui.common.BasePresenter
 import ru.ktsstudio.wishlist.utils.Screens
 import ru.terrakok.cicerone.Router
 
 @InjectViewState
 class LoginPresenter(
-    private var wishApiRepository: WishApiRepository,
-    private var sharedPreferenceRepository: SharedPreferenceRepository,
-    private var resources: Resources,
-    private var localRouter: Router,
-    private var globalRouter: Router
+    private val loginInteractor: ILoginInteractor,
+    private val resources: Resources,
+    private val localRouter: Router,
+    private val globalRouter: Router
 ) : BasePresenter<LoginView>() {
 
     fun login(email: String, password: String) {
-        wishApiRepository.login(email, password)
-            .map { response ->
-                sharedPreferenceRepository.saveUser(response.data?.token, response.data?.email)
-            }
+        loginInteractor.login(email, password)
             .doOnSubscribe { viewState.showLoading(true) }
             .doOnError { viewState.showLoading(false) }
             .subscribe({

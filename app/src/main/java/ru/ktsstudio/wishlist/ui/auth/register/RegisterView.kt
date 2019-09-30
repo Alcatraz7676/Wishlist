@@ -16,4 +16,10 @@ interface RegisterView : MvpView {
     @StateStrategyType(AddToEndSingleStrategy::class)
     fun enableRegister(enable: Boolean)
 
+    @StateStrategyType(OneExecutionStateStrategy::class)
+    fun showPermissionRationale(show: Boolean)
+
+    @StateStrategyType(AddToEndSingleStrategy::class)
+    fun requestContactPermission()
+
 }

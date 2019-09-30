@@ -10,6 +10,7 @@ import com.arellomobile.mvp.MvpAppCompatFragment
 import ru.ktsstudio.wishlist.R
 import ru.ktsstudio.wishlist.di.DI
 import ru.ktsstudio.wishlist.di.modules.ContentProviderModule
+import ru.ktsstudio.wishlist.di.modules.MainModule
 import ru.ktsstudio.wishlist.ui.common.BackButtonListener
 import ru.ktsstudio.wishlist.ui.common.GlobalRouterProvider
 import ru.ktsstudio.wishlist.ui.common.LocalRouterProvider
@@ -31,7 +32,8 @@ class MainFragmentContainer : MvpAppCompatFragment(), GlobalRouterProvider, Loca
     init {
         val scope = Toothpick.openScopes(DI.APP, DI.ACTIVITY, DI.MAIN)
         scope.installModules(
-            ContentProviderModule()
+            ContentProviderModule(),
+            MainModule()
         )
         Toothpick.inject(this, scope)
     }
@@ -69,6 +71,7 @@ class MainFragmentContainer : MvpAppCompatFragment(), GlobalRouterProvider, Loca
 
     override fun onDestroy() {
         super.onDestroy()
+        navigator = null
         Toothpick.closeScope(DI.MAIN)
     }
 

@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentTransaction
 import com.arellomobile.mvp.MvpAppCompatFragment
 import ru.ktsstudio.wishlist.R
 import ru.ktsstudio.wishlist.di.DI
+import ru.ktsstudio.wishlist.di.modules.AuthModule
 import ru.ktsstudio.wishlist.ui.common.BackButtonListener
 import ru.ktsstudio.wishlist.ui.common.GlobalRouterProvider
 import ru.ktsstudio.wishlist.ui.common.LocalRouterProvider
@@ -29,6 +30,7 @@ class AuthFragmentContainer : MvpAppCompatFragment(), GlobalRouterProvider, Loca
 
     init {
         val scope = Toothpick.openScopes(DI.APP, DI.ACTIVITY, DI.AUTH)
+        scope.installModules(AuthModule())
         Toothpick.inject(this, scope)
     }
 
@@ -65,6 +67,7 @@ class AuthFragmentContainer : MvpAppCompatFragment(), GlobalRouterProvider, Loca
 
     override fun onDestroy() {
         super.onDestroy()
+        navigator = null
         Toothpick.closeScope(DI.AUTH)
     }
 
@@ -104,6 +107,10 @@ class AuthFragmentContainer : MvpAppCompatFragment(), GlobalRouterProvider, Loca
             }
         }
         return navigator!!
+    }
+
+    companion object {
+        const val MY_PERMISSIONS_REQUEST_READ_CONTACTS = 432
     }
 
 }

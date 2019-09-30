@@ -8,15 +8,15 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import ru.ktsstudio.wishlist.data.db.WishDao
 import ru.ktsstudio.wishlist.data.db.model.Wish
-import ru.ktsstudio.wishlist.data.prefs.SharedPreferenceRepository
-import ru.ktsstudio.wishlist.data.network.repository.WishApiRepository
+import ru.ktsstudio.wishlist.data.network.repository.IWishApiRepository
+import ru.ktsstudio.wishlist.data.prefs.ISharedPreferencesRepository
 import toothpick.InjectConstructor
 
 @InjectConstructor
 class WishRepository(
     private val wishDao: WishDao,
-    private val sharedPreferenceRepository: SharedPreferenceRepository,
-    private val wishApiRepository: WishApiRepository
+    private val sharedPreferencesRepository: ISharedPreferencesRepository,
+    private val wishApiRepository: IWishApiRepository
 ) : IWishRepository {
 
     override fun insertWishes(wishes: List<Wish>): Single<List<Long>> {
@@ -34,7 +34,7 @@ class WishRepository(
     }
 
     override fun observeMyWishes(): Observable<List<Wish>> {
-        val currentUser = sharedPreferenceRepository.getCurrentUserLogin()
+        val currentUser = sharedPreferencesRepository.getCurrentUserLogin()
         return wishDao
             .observeAll()
             .map {
@@ -58,7 +58,7 @@ class WishRepository(
             .observeAll()
             .map {
                 it.filter { item ->
-                    item.author.login != sharedPreferenceRepository.getCurrentUserLogin()
+                    item.author.login != sharedPreferencesRepository.getCurrentUserLogin()
                 }
             }
     }

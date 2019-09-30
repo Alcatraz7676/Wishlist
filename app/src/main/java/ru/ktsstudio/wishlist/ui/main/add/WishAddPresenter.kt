@@ -6,19 +6,18 @@ import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
 import io.reactivex.rxkotlin.addTo
 import ru.ktsstudio.wishlist.R
-import ru.ktsstudio.wishlist.data.network.repository.WishApiRepository
 import ru.ktsstudio.wishlist.ui.common.BasePresenter
 import ru.terrakok.cicerone.Router
 
 @InjectViewState
 class WishAddPresenter(
-    private val wishApiRepository: WishApiRepository,
+    private val wishAddInteractor: IWishAddInteractor,
     private val resources: Resources,
     private val localRouter: Router
 ) : BasePresenter<WishAddView>() {
 
     fun addWish(title: String, description: String) {
-        wishApiRepository.addWish(title, description)
+        wishAddInteractor.addWish(title, description)
             .doOnSubscribe { viewState.showLoading(true) }
             .doOnSuccess { viewState.clearEditText() }
             .doAfterTerminate { viewState.showLoading(false) }

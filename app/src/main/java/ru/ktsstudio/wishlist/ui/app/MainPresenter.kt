@@ -1,19 +1,18 @@
 package ru.ktsstudio.wishlist.ui.app
 
 import com.arellomobile.mvp.InjectViewState
-import ru.ktsstudio.wishlist.data.prefs.SharedPreferenceRepository
 import ru.ktsstudio.wishlist.ui.common.BasePresenter
 import ru.ktsstudio.wishlist.utils.Screens
 import ru.terrakok.cicerone.Router
 
 @InjectViewState
 class MainPresenter(
-    private val sharedPreferenceRepository: SharedPreferenceRepository,
+    private val mainInteractor: IMainInteractor,
     private val router: Router
 ) : BasePresenter<MainView>() {
 
     fun checkLoginState() {
-        val userLogin = sharedPreferenceRepository.getCurrentUserLogin()
+        val userLogin = mainInteractor.getCurrentUserLogin()
         if (userLogin == null) {
             router.navigateTo(Screens.AuthContainer())
         } else {

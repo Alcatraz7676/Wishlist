@@ -4,9 +4,7 @@ import android.util.Log
 import com.arellomobile.mvp.InjectViewState
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.addTo
-import ru.ktsstudio.wishlist.data.content_provider.ContentProviderRepository
 import ru.ktsstudio.wishlist.data.db.model.Wish
-import ru.ktsstudio.wishlist.data.db.repository.WishRepository
 import ru.ktsstudio.wishlist.ui.common.BasePresenter
 import ru.ktsstudio.wishlist.ui.main.wishtabs.adapters.WishAdapterModel
 import ru.ktsstudio.wishlist.utils.Screens
@@ -15,27 +13,28 @@ import ru.terrakok.cicerone.Router
 
 @InjectViewState
 class TabPresenter(
-    private val wishRepository: WishRepository,
-    private val contentProviderRepository: ContentProviderRepository,
+    private val tabInteractor: ITabInteractor,
     private val localRouter: Router,
     private val wishesObservable: Observable<List<Wish>>
 ) : BasePresenter<TabView>() {
 
     fun addWishToFavourite(wishId: Long, favourite: Boolean) {
-        wishRepository.changeWishFavouriteStatus(wishId, favourite)
+        tabInteractor.changeWishFavouriteStatus(wishId, favourite)
             .subscribe {
                 Log.d("TabFragment", "Wish успешно добавлен в избранное")
             }.addTo(compositeDisposable)
     }
 
     fun getItems() {
-        contentProviderRepository.getContactNames()
+        tabInteractor.getContactNames()
             .doFinally { subscribeOnDbChanges() }
-            .subscribe ({
-                viewState.setContactNames(it)
-            }, {
-                Log.d("TabFragment", it.localizedMessage)
-            }).addTo(compositeDisposable)
+            .subscribe(
+                {
+                    viewState.setContactNames(it)
+                }, {
+                    Log.d("TabFragment", it.localizedMessage)
+                }
+            ).addTo(compositeDisposable)
     }
 
     fun shuffleItems(wishes: List<WishAdapterModel.Wish>) {
@@ -48,13 +47,13 @@ class TabPresenter(
 
     private fun subscribeOnDbChanges() {
         wishesObservable
-            .subscribe (
+            .subscribe(
                 { wishes ->
-                viewState.setWishes(wishes.map { it.toAdapterModel() })
-            },
-                {
+                    viewState.setWishes(wishes.map { it.toAdapterModel() })
+                }, {
                     Log.d("TabPresenter onError", it.localizedMessage)
-                }).addTo(compositeDisposable)
+                }
+            ).addTo(compositeDisposable)
     }
 
 }

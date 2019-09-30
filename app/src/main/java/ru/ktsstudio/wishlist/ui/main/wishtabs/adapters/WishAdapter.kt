@@ -37,8 +37,10 @@ class WishAdapter : AsyncListDifferDelegationAdapter<WishAdapterModel> {
 
     fun setWishItems(newWishes: List<WishAdapterModel.Wish>?) {
         val newItems = mutableListOf<WishAdapterModel>()
-        newItems.addAll(newWishes!!)
-        newItems.add(0, header)
+        if (newWishes != null && newWishes.isNotEmpty()) {
+            newItems.addAll(newWishes)
+            newItems.add(0, header)
+        }
         items = newItems
     }
 }

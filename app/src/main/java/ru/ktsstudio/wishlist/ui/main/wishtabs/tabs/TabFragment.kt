@@ -14,9 +14,7 @@ import io.reactivex.Observable
 import io.reactivex.rxkotlin.addTo
 import kotlinx.android.synthetic.main.fragment_rv.*
 import ru.ktsstudio.wishlist.R
-import ru.ktsstudio.wishlist.data.content_provider.ContentProviderRepository
 import ru.ktsstudio.wishlist.data.db.model.Wish
-import ru.ktsstudio.wishlist.data.db.repository.WishRepository
 import ru.ktsstudio.wishlist.di.DI
 import ru.ktsstudio.wishlist.ui.common.BaseFragment
 import ru.ktsstudio.wishlist.ui.common.LocalRouterProvider
@@ -35,17 +33,14 @@ abstract class TabFragment : BaseFragment(), TabView {
     }
 
     @Inject
-    lateinit var wishRepository: WishRepository
-    @Inject
-    lateinit var contentProviderRepository: ContentProviderRepository
+    lateinit var tabInteractor: ITabInteractor
 
     @InjectPresenter
     lateinit var presenter: TabPresenter
 
     @ProvidePresenter
     fun providePresenter() = TabPresenter(
-        wishRepository, contentProviderRepository, localRouter,
-        getWishes()
+        tabInteractor, localRouter, getWishes()
     )
 
     private val localRouter: Router

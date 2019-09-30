@@ -11,7 +11,6 @@ import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_detail_wish.*
 import ru.ktsstudio.wishlist.R
 import ru.ktsstudio.wishlist.data.db.model.Wish
-import ru.ktsstudio.wishlist.data.db.repository.WishRepository
 import ru.ktsstudio.wishlist.di.DI
 import ru.ktsstudio.wishlist.ui.common.BackButtonListener
 import ru.ktsstudio.wishlist.ui.common.BaseFragment
@@ -30,13 +29,13 @@ class WishDetailFragment : BaseFragment(), WishDetailView, BackButtonListener {
     }
 
     @Inject
-    lateinit var wishRepository: WishRepository
+    lateinit var wishDetailInteractor: IWishDetailInteractor
 
     @InjectPresenter
     lateinit var presenter: WishDetailPresenter
 
     @ProvidePresenter
-    fun providePresenter() = WishDetailPresenter(wishRepository, localRouter)
+    fun providePresenter() = WishDetailPresenter(wishDetailInteractor, localRouter)
 
     private val localRouter: Router
         get() = (parentFragment as LocalRouterProvider).getRouter()

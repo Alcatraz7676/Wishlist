@@ -17,9 +17,8 @@ import com.jakewharton.rxbinding3.widget.textChanges
 import io.reactivex.rxkotlin.addTo
 import kotlinx.android.synthetic.main.fragment_login.*
 import ru.ktsstudio.wishlist.R
-import ru.ktsstudio.wishlist.data.network.repository.WishApiRepository
-import ru.ktsstudio.wishlist.data.prefs.SharedPreferenceRepository
 import ru.ktsstudio.wishlist.di.DI
+import ru.ktsstudio.wishlist.ui.auth.AuthFragmentContainer.Companion.MY_PERMISSIONS_REQUEST_READ_CONTACTS
 import ru.ktsstudio.wishlist.ui.common.BackButtonListener
 import ru.ktsstudio.wishlist.ui.common.BaseFragment
 import ru.ktsstudio.wishlist.ui.common.GlobalRouterProvider
@@ -36,9 +35,7 @@ class LoginFragment : BaseFragment(), LoginView, BackButtonListener {
     }
 
     @Inject
-    lateinit var wishApiRepository: WishApiRepository
-    @Inject
-    lateinit var sharedPreferenceRepository: SharedPreferenceRepository
+    lateinit var loginInteractor: ILoginInteractor
 
     @InjectPresenter
     lateinit var presenter: LoginPresenter
@@ -46,8 +43,7 @@ class LoginFragment : BaseFragment(), LoginView, BackButtonListener {
     @ProvidePresenter
     fun providePresenter() =
         LoginPresenter(
-            wishApiRepository,
-            sharedPreferenceRepository,
+            loginInteractor,
             resources,
             localRouter,
             globalRouter
@@ -150,10 +146,6 @@ class LoginFragment : BaseFragment(), LoginView, BackButtonListener {
         val passwordObservable = input_password.textChanges()
 
         presenter.loginBtnActivation(emailObservable, passwordObservable)
-    }
-
-    companion object {
-        private const val MY_PERMISSIONS_REQUEST_READ_CONTACTS = 432
     }
 
 }

@@ -7,36 +7,36 @@ import io.reactivex.rxkotlin.Observables
 import io.reactivex.rxkotlin.addTo
 import ru.ktsstudio.wishlist.R
 import ru.ktsstudio.wishlist.data.network.interceptors.HttpStatusInterceptor
-import ru.ktsstudio.wishlist.data.network.repository.WishApiRepository
-import ru.ktsstudio.wishlist.data.prefs.SharedPreferenceRepository
 import ru.ktsstudio.wishlist.ui.common.BasePresenter
 import ru.ktsstudio.wishlist.utils.Screens
 import ru.terrakok.cicerone.Router
 
 @InjectViewState
 class RegisterPresenter(
-    private val wishApiRepository: WishApiRepository,
-    private val sharedPreferenceRepository: SharedPreferenceRepository,
+    private val registerInteractor: IRegisterInteractor,
     private val resources: Resources,
     private val localRouter: Router,
     private val globalRouter: Router
 ) : BasePresenter<RegisterView>() {
 
     fun register(firstName: String, lastName: String, email: String, password: String) {
-        wishApiRepository.register(firstName, lastName, email, password)
-            .map { response ->
-                sharedPreferenceRepository.saveUser(response.data?.token, response.data?.email)
-            }
+        registerInteractor.register(firstName, lastName, email, password)
             .doOnSubscribe { viewState.showLoading(true) }
             .doOnError { viewState.showLoading(false) }
-            .subscribe({
-                navigateToMain()
-            }, {
-                if (it is HttpStatusInterceptor.UserExistsException)
-                    viewState.showToast(resources.getString(R.string.auth_fragment_toast_same_email))
-                else
-                    viewState.showToast(resources.getString(R.string.auth_fragment_toast_register_error))
-            }).addTo(compositeDisposable)
+            .subscribe(
+                {
+                    viewState.requestContactPermission()
+                }, {
+                    if (it is HttpStatusInterceptor.UserExistsException)
+                        viewState.showToast(resources.getString(R.string.auth_fragment_toast_same_email))
+                    else
+                        viewState.showToast(resources.getString(R.string.auth_fragment_toast_register_error))
+                }
+            ).addTo(compositeDisposable)
+    }
+
+    fun showRationaleDialog(show: Boolean) {
+        viewState.showPermissionRationale(show)
     }
 
     fun registerBtnActivation(

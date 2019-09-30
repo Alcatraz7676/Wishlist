@@ -8,7 +8,6 @@ import com.jakewharton.rxbinding3.view.clicks
 import io.reactivex.rxkotlin.addTo
 import kotlinx.android.synthetic.main.fragment_wishtabs.*
 import ru.ktsstudio.wishlist.R
-import ru.ktsstudio.wishlist.data.prefs.SharedPreferenceRepository
 import ru.ktsstudio.wishlist.di.DI
 import ru.ktsstudio.wishlist.ui.app.MainActivity
 import ru.ktsstudio.wishlist.ui.common.BackButtonListener
@@ -28,14 +27,14 @@ class WishTabsFragment : BaseFragment(), WishTabsView, LocalRouterProvider, Back
     }
 
     @Inject
-    lateinit var sharedPreferenceRepository: SharedPreferenceRepository
+    lateinit var wishTabsInteractor: IWishTabsInteractor
 
     @InjectPresenter
     lateinit var presenter: WishTabsPresenter
 
     @ProvidePresenter
     fun providePresenter() =
-        WishTabsPresenter(sharedPreferenceRepository, localRouter, globalRouter)
+        WishTabsPresenter(wishTabsInteractor, localRouter, globalRouter)
 
     private val localRouter: Router
         get() = (parentFragment as LocalRouterProvider).getRouter()

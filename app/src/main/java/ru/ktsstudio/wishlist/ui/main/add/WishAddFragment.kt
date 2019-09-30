@@ -14,7 +14,6 @@ import io.reactivex.rxkotlin.addTo
 import kotlinx.android.synthetic.main.fragment_add_wish.*
 import kotlinx.android.synthetic.main.fragment_wishtabs.toolbar
 import ru.ktsstudio.wishlist.R
-import ru.ktsstudio.wishlist.data.network.repository.WishApiRepository
 import ru.ktsstudio.wishlist.di.DI
 import ru.ktsstudio.wishlist.ui.common.BackButtonListener
 import ru.ktsstudio.wishlist.ui.common.BaseFragment
@@ -31,13 +30,13 @@ class WishAddFragment : BaseFragment(), WishAddView, BackButtonListener {
     }
 
     @Inject
-    lateinit var wishApiRepository: WishApiRepository
+    lateinit var wishAddInteractor: IWishAddInteractor
 
     @InjectPresenter
     lateinit var presenter: WishAddPresenter
 
     @ProvidePresenter
-    fun providePresenter() = WishAddPresenter(wishApiRepository, resources, localRouter)
+    fun providePresenter() = WishAddPresenter(wishAddInteractor, resources, localRouter)
 
     private val localRouter: Router
         get() = (parentFragment as LocalRouterProvider).getRouter()

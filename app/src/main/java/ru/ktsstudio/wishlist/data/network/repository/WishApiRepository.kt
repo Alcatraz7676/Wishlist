@@ -7,19 +7,19 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import ru.ktsstudio.wishlist.data.db.model.User
 import ru.ktsstudio.wishlist.data.db.model.Wish
+import ru.ktsstudio.wishlist.data.network.WishApiService
 import ru.ktsstudio.wishlist.data.network.model.body.AddBody
 import ru.ktsstudio.wishlist.data.network.model.body.LoginBody
 import ru.ktsstudio.wishlist.data.network.model.body.RegisterBody
 import ru.ktsstudio.wishlist.data.network.model.response.AuthResponse
 import ru.ktsstudio.wishlist.data.network.model.response.WishAddResponse
-import ru.ktsstudio.wishlist.data.network.WishApiService
-import ru.ktsstudio.wishlist.data.prefs.SharedPreferenceRepository
+import ru.ktsstudio.wishlist.data.prefs.ISharedPreferencesRepository
 import toothpick.InjectConstructor
 
 @InjectConstructor
 class WishApiRepository(
     private val wishApiService: WishApiService,
-    private val sharedPreferenceRepository: SharedPreferenceRepository
+    private val sharedPreferencesRepository: ISharedPreferencesRepository
 ) : IWishApiRepository {
 
     override fun login(email: String, password: String): Single<AuthResponse> {
@@ -72,7 +72,7 @@ class WishApiRepository(
                         id = it.title.hashCode().toLong() + it.description.hashCode() + it.userId.hashCode(),
                         title = it.title,
                         description = it.description,
-                        author = User(sharedPreferenceRepository.getCurrentUserLogin()!!),
+                        author = User(sharedPreferencesRepository.getCurrentUserLogin()!!),
                         photoId = 0
                     )
                 }
